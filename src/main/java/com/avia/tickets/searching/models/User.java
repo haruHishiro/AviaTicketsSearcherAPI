@@ -1,6 +1,11 @@
+/*
+ * Model for processing users in responses
+ * Developers: Panov K.D. ;
+ * Last change: february 2025
+ */
+
 package com.avia.tickets.searching.models;
 
-import com.avia.tickets.searching.response.Response;
 
 public class User {
     private long internalId;
