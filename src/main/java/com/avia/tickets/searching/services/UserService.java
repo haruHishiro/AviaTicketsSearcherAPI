@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private PDB pdb;
+    private PDB pdb = new PDB();
     public long getUserIdViaTelegramId(long telegramId) {
         return pdb.getUserIdViaTelegramId(telegramId);
     }

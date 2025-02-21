@@ -17,8 +17,7 @@ public class User {
     }
 
     public class UserBuilder {
-        private UserBuilder() {
-        }
+        private UserBuilder() { }
 
         public UserBuilder setStatus(long internalId) {
             User.this.internalId = internalId;
@@ -38,5 +37,17 @@ public class User {
         public User build() {
             return User.this;
         }
+    }
+
+    public long getInternalId() {
+        return internalId;
+    }
+
+    public long getTelegramId() {
+        return telegramId;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 }

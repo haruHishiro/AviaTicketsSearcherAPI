@@ -49,4 +49,19 @@ public class Response {
         }
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BaseModel getBody() {
+        return body;
+    }
 }
