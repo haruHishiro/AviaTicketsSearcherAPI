@@ -1,1 +1,1 @@
-Internal API module for avia tickets serarcher system
+Internal API module for avia tickets searcher system

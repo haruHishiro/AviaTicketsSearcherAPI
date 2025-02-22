@@ -12,7 +12,7 @@
 	<artifactId>tickets.searching</artifactId>
 	<version>0.0.1-Alfa</version>
 	<name>Tickets searcher</name>
-	<description>API module for searching tickets via telegram</description>
+	<description>API module for searching avia tickets via telegram</description>
 	<url/>
 	<licenses>
 		<license/>
