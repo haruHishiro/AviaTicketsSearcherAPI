@@ -7,10 +7,10 @@
 
 package com.avia.tickets.searching.models;
 
-public class ValueLong extends BaseModel {
+public class ValueLongModel extends BaseModel {
     private long value;
 
-    public ValueLong(long value) {
+    public ValueLongModel(long value) {
         this.value = value;
     }
 

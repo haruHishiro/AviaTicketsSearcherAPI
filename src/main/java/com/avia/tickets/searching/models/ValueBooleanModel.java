@@ -7,10 +7,10 @@
 package com.avia.tickets.searching.models;
 
 
-public final class BooleanModel extends BaseModel {
+public final class ValueBooleanModel extends BaseModel {
     private boolean value;
 
-    public BooleanModel(boolean value) {
+    public ValueBooleanModel(boolean value) {
         this.value = value;
     }
 
