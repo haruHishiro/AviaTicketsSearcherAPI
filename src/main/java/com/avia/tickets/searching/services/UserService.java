@@ -15,11 +15,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private PDB pdb = new PDB();
 
-    /*
-     * =====================================================================================
-     *                               user service section
-     * =====================================================================================
-     */
     public boolean isActiveUserViaTelegramId(long telegramId) {
         return pdb.isActiveUserViaTelegramId(telegramId);
     }
@@ -63,11 +58,5 @@ public class UserService {
     public long getTelegramIdViaInternalId(long internalId) {
         return pdb.getTelegramIdViaInternalId(internalId);
     }
-
-    /*
-     * =====================================================================================
-     *                             end of user service section
-     * =====================================================================================
-     */
 
 }

@@ -7,6 +7,11 @@
 package com.avia.tickets.searching.DB;
 
 public class PDB {
+    /*
+     * =====================================================================================
+     *                               General description START
+     * =====================================================================================
+     */
 
     /*
      *
@@ -20,6 +25,18 @@ public class PDB {
      * | isActive | <-- If user allowed / disallowed messaging with bot || True - allowed; False - disallowed
      * +==========+
      *
+     */
+
+    /*
+     * =====================================================================================
+     *                               General description END
+     * =====================================================================================
+     */
+
+    /*
+     * =====================================================================================
+     *                               user service section START
+     * =====================================================================================
      */
     public boolean isActiveUserViaTelegramId(long telegramId) {
         //TODO the method should return state about "isActive" field from table users for user with this telegram id
@@ -75,4 +92,10 @@ public class PDB {
         //TODO the method should access the database and get the telegram id via the internal identifier
         return 1;
     }
+
+    /*
+     * =====================================================================================
+     *                               user service section END
+     * =====================================================================================
+     */
 }
