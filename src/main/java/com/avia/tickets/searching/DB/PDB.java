@@ -10,7 +10,9 @@ import com.avia.tickets.searching.models.Offer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+//import java.util.Date;
 
 public class PDB {
     /*
@@ -70,6 +72,11 @@ public class PDB {
      *                               User service section START
      * =====================================================================================
      */
+
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/AirBase";
+    private static final String USER = "postgres";
+    private static final String PASS = "toor";
+
     public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this telegram id
         return telegramId == 1;
@@ -192,4 +199,5 @@ public class PDB {
      *                               Offer service section END
      * =====================================================================================
      */
+
 }
