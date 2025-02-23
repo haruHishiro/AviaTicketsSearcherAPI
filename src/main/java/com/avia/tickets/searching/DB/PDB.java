@@ -8,6 +8,7 @@ package com.avia.tickets.searching.DB;
 
 import com.avia.tickets.searching.models.Offer;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -69,57 +70,57 @@ public class PDB {
      *                               User service section START
      * =====================================================================================
      */
-    public boolean isActiveUserViaTelegramId(long telegramId) {
+    public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this telegram id
         return telegramId == 1;
     }
 
-    public boolean isActiveUserViaInternalId(long internalId) {
+    public boolean isActiveUserViaInternalId(long internalId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this internal id
         return internalId == 1;
     }
 
-    public boolean disableUserViaTelegramId(long telegramId) {
+    public boolean disableUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to false for user with this telegram id
         return false;
     }
 
-    public boolean disableUserViaInternalId(long internalId) {
+    public boolean disableUserViaInternalId(long internalId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to false for user with this internal id
         return false;
     }
 
-    public boolean enableUserViaTelegramId(long telegramId) {
+    public boolean enableUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to true for user with this telegram id
         return false;
     }
 
-    public boolean enableUserViaInternalId(long internalId) {
+    public boolean enableUserViaInternalId(long internalId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to true for user with this internal id
         return false;
     }
 
-    public boolean createUser(long telegramId) {
+    public boolean createUser(long telegramId) throws SQLException {
         //TODO the method should create a new user with this telegram id, if user with this telegram id is not already exist
         return false;
     }
 
-    public boolean isUserExistViaTelegramId(long telegramId) {
+    public boolean isUserExistViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return the state of existence of the user with the given telegram id
         return telegramId == 1;
     }
 
-    public boolean isUserExistViaInternalId(long internalId) {
+    public boolean isUserExistViaInternalId(long internalId) throws SQLException {
         //TODO the method should return the state of existence of the user with the given internal id
         return internalId == 1;
     }
 
-    public long getInternalIdViaTelegramId(long telegramId) {
+    public long getInternalIdViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should access the database and get the internal id via the telegram identifier
         return 1;
     }
 
-    public long getTelegramIdViaInternalId(long internalId) {
+    public long getTelegramIdViaInternalId(long internalId) throws SQLException {
         //TODO the method should access the database and get the telegram id via the internal identifier
         return 1;
     }
@@ -136,48 +137,53 @@ public class PDB {
      * =====================================================================================
      */
 
-    public ArrayList<Offer> getUserOffersViaTelegramId(long telegramId) {
+    public ArrayList<Offer> getUserOffersViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return list of all offers of user with the passed telegram identifier
         return new ArrayList<Offer>();
     }
 
-    public ArrayList<Offer> getUserOffersViaInternalId(long internalId) {
+    public ArrayList<Offer> getUserOffersViaInternalId(long internalId) throws SQLException {
         //TODO the method should return list of all offers of user with the passed internal identifier
         return new ArrayList<Offer>();
     }
 
-    public ArrayList<Offer> getUserActiveOffersViaTelegramId(long telegramId) {
+    public ArrayList<Offer> getUserActiveOffersViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return list of active offers of user with the passed telegram identifier
         return new ArrayList<Offer>();
     }
 
-    public ArrayList<Offer> getUserActiveOffersViaInternalId(long internalId) {
+    public ArrayList<Offer> getUserActiveOffersViaInternalId(long internalId) throws SQLException {
         //TODO the method should return list of active offers of user with the passed internal identifier
         return new ArrayList<Offer>();
     }
 
-    public ArrayList<Offer> getUserNonActiveOffersViaTelegramId(long telegramId) {
+    public ArrayList<Offer> getUserNonActiveOffersViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return list of non active offers of user with the passed telegram identifier
         return new ArrayList<Offer>();
     }
 
-    public ArrayList<Offer> getUserNonActiveOffersViaInternalId(long internalId) {
+    public ArrayList<Offer> getUserNonActiveOffersViaInternalId(long internalId) throws SQLException {
         //TODO the method should return list of non active offers of user with the passed internal identifier
         return new ArrayList<Offer>();
     }
 
-    public boolean addOffer(long internalId, Offer offerFields) {
+    public boolean addOffer(long internalId, Offer offerFields) throws SQLException {
         //TODO the method should create a new offer for user with passed internal identifier if offer with the passed fields for this user not exist
         return false;
     }
 
-    public boolean disableOffer(long offerId) {
+    public boolean disableOffer(long offerId) throws SQLException {
         //TODO the method should set field isActive to false of offer with the passed identifier
         return false;
     }
 
-    public boolean enableOffer(long offerId) {
+    public boolean enableOffer(long offerId) throws SQLException {
         //TODO the method should set field isActive to true of offer with the passed identifier
+        return false;
+    }
+
+    public boolean isActiveOffer(long offerId) throws SQLException {
+        //TODO the method should return the state of the "isActive" field from table "offers" of offer with the passed identifier
         return false;
     }
 
