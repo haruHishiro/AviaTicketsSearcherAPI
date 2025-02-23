@@ -3,28 +3,33 @@ package com.avia.tickets.searching.models;
 import java.util.Date;
 
 public class Offer extends BaseModel {
-    long internalId;
-    long telegramId;
-    String departurePointType;
-    String destinationPointType;
-    String departurePointName;
-    String destinationPointName;
-    Date startDate;
-    Date endDate;
-    boolean withLuggage;
-    int ticketMaxCost;
+    private long offerId;
+    private long internalId;
+    private boolean isActive;
+    private String departurePointType;
+    private String destinationPointType;
+    private String departurePointName;
+    private String destinationPointName;
+    private Date startDate;
+    private Date endDate;
+    private boolean withLuggage;
+    private int ticketMaxCost;
 
     public class OfferBuilder {
         private OfferBuilder() {
         }
 
+        public OfferBuilder setOfferId(long offerId){
+            Offer.this.offerId = offerId;
+            return this;
+        }
         public OfferBuilder setInternalId(long internalId){
             Offer.this.internalId = internalId;
             return this;
         }
 
-        public OfferBuilder setTelegramId(long telegramId){
-            Offer.this.telegramId = telegramId;
+        public OfferBuilder setIsActive(boolean isActive){
+            Offer.this.isActive = isActive;
             return this;
         }
 
@@ -73,12 +78,16 @@ public class Offer extends BaseModel {
         }
     }
 
+    public long getOfferId() {
+        return offerId;
+    }
+
     public long getInternalId() {
         return internalId;
     }
 
-    public long getTelegramId() {
-        return telegramId;
+    public boolean isActive() {
+        return isActive;
     }
 
     public String getDeparturePointType() {
