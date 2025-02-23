@@ -17,7 +17,8 @@ public class User {
     }
 
     public class UserBuilder {
-        private UserBuilder() { }
+        private UserBuilder() {
+        }
 
         public UserBuilder setStatus(long internalId) {
             User.this.internalId = internalId;
