@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
 //import java.util.Date;
+import java.sql.*;
 
 public class PDB {
     /*
@@ -77,9 +78,22 @@ public class PDB {
     private static final String USER = "postgres";
     private static final String PASS = "toor";
 
+    private static final String SELECT_ISACTIVE_USER_VIA_TELEGRAM_ID = "SELECT isActive FROM users WHERE telegramId = ?";
+
+    //connect to database
+    public Connection connect() throws SQLException {
+        return DriverManager.getConnection(DB_URL, USER, PASS);
+    }
+
+
     public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this telegram id
-        return telegramId == 1;
+
+        Connection connection = connect();
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_ISACTIVE_USER_VIA_TELEGRAM_ID);
+        prst_for_telegramid.setLong(1, telegramId);
+        ResultSet rs = prst_for_telegramid.executeQuery();
+        return rs.getBoolean("isActive");
     }
 
     public boolean isActiveUserViaInternalId(long internalId) throws SQLException {
