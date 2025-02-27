@@ -26,101 +26,63 @@ public class UsersController {
     private final UserService userService;
 
     @Autowired
-    public UsersController(UserService userService){
+    public UsersController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/isActiveUser")
     public Response isActiveUser(@RequestParam long userId, @RequestParam boolean isInternalId) {
         //TODO logs to console
-        Response response;
+        Response response = new Response();
 
-        if(isInternalId) {
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.isActiveUserViaInternalId(userId)))
-                        .build();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.isActiveUserViaTelegramId(userId)))
-                        .build();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("method in develop")
+                    .setResponseBody(new ValueBooleanModel(userService.isActiveUser(userId, isInternalId)))
+                    .build();
+        } catch (SQLException e) {
+            System.out.println(e);
         }
 
         return response;
     }
 
     @GetMapping("/disableUser")
-    public Response disableUser(@RequestParam long id, @RequestParam boolean isInternalId) {
+    public Response disableUser(@RequestParam long userId, @RequestParam boolean isInternalId) {
         //TODO logs to console
         Response response = new Response();
 
-        if(isInternalId){
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.disableUserViaInternalId(id)))
-                        .build();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
-        } else {
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.disableUserViaTelegramId(id)))
-                        .build();
-            } catch (SQLException e) {
-                System.out.println(e);;
-            }
+        try {
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("method in develop")
+                    .setResponseBody(new ValueBooleanModel(userService.disableUser(userId, isInternalId)))
+                    .build();
+        } catch (SQLException e) {
+            System.out.println(e);
         }
+
 
         return response;
     }
 
     @GetMapping("/enableUser")
-    public Response enableUser(@RequestParam long id, @RequestParam boolean isInternalId) {
+    public Response enableUser(@RequestParam long userId, @RequestParam boolean isInternalId) {
         //TODO logs to console
         Response response = new Response();
 
-        if(isInternalId){
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.enableUserViaInternalId(id)))
-                        .build();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
-        } else {
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.enableUserViaTelegramId(id)))
-                        .build();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+        try {
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("method in develop")
+                    .setResponseBody(new ValueBooleanModel(userService.enableUser(userId, isInternalId)))
+                    .build();
+        } catch (SQLException e) {
+            System.out.println(e);
         }
 
         return response;
@@ -131,11 +93,12 @@ public class UsersController {
         //TODO logs to console
         Response response = new Response();
         try {
+            userService.createUser(telegramId);
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(userService.createUser(telegramId)))
+                    .setResponseBody(new ValueBooleanModel(true))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -144,32 +107,19 @@ public class UsersController {
     }
 
     @GetMapping("/isUserExist")
-    public Response isUserExist(@RequestParam long id, @RequestParam boolean isInternalId) {
+    public Response isUserExist(@RequestParam long userId, @RequestParam boolean isInternalId) {
         //TODO logs to console
         Response response = new Response();
 
-        if(isInternalId){
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.isUserExistViaInternalId(id)))
-                        .build();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
-        } else {
-            try {
-                response = Response.builder()
-                        .setCode(200)
-                        .setStatus("OK")
-                        .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.isUserExistViaTelegramId(id)))
-                        .build();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+        try {
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("method in develop")
+                    .setResponseBody(new ValueBooleanModel(userService.isUserExist(userId, isInternalId)))
+                    .build();
+        } catch (SQLException e) {
+            System.out.println(e);
         }
 
         return response;

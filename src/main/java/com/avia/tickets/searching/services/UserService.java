@@ -17,40 +17,36 @@ import java.sql.SQLException;
 public class UserService {
     private PDB pdb = new PDB();
 
-    public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
-        return pdb.isActiveUserViaTelegramId(telegramId);
+    public boolean isActiveUser(long userId, boolean isInternalId) throws SQLException {
+        if (isInternalId) {
+            return pdb.isActiveUserViaInternalId(userId);
+        }
+        return pdb.isActiveUserViaTelegramId(userId);
     }
 
-    public boolean isActiveUserViaInternalId(long internalId) throws SQLException {
-        return pdb.isActiveUserViaInternalId(internalId);
+    public boolean disableUser(long userId, boolean isInternalId) throws SQLException {
+        if (isInternalId) {
+            return pdb.disableUserViaInternalId(userId);
+        }
+        return pdb.disableUserViaTelegramId(userId);
     }
 
-    public boolean disableUserViaTelegramId(long telegramId) throws SQLException {
-        return pdb.disableUserViaTelegramId(telegramId);
+    public boolean enableUser(long userId, boolean isInternalId) throws SQLException {
+        if (isInternalId) {
+            return pdb.enableUserViaInternalId(userId);
+        }
+        return pdb.enableUserViaTelegramId(userId);
     }
 
-    public boolean disableUserViaInternalId(long internalId) throws SQLException {
-        return pdb.disableUserViaInternalId(internalId);
+    public void createUser(long telegramId) throws SQLException {
+        pdb.createUser(telegramId);
     }
 
-    public boolean enableUserViaTelegramId(long telegramId) throws SQLException {
-        return pdb.enableUserViaTelegramId(telegramId);
-    }
-
-    public boolean enableUserViaInternalId(long internalId) throws SQLException {
-        return pdb.enableUserViaInternalId(internalId);
-    }
-
-    public boolean createUser(long telegramId) throws SQLException {
-        return pdb.createUser(telegramId);
-    }
-
-    public boolean isUserExistViaTelegramId(long telegramId) throws SQLException {
-        return pdb.isUserExistViaTelegramId(telegramId);
-    }
-
-    public boolean isUserExistViaInternalId(long internalId) throws SQLException {
-        return pdb.isUserExistViaInternalId(internalId);
+    public boolean isUserExist(long userId, boolean isInternalId) throws SQLException {
+        if (isInternalId) {
+            return pdb.isUserExistViaInternalId(userId);
+        }
+        return pdb.isUserExistViaTelegramId(userId);
     }
 
     public long getInternalIdViaTelegramId(long telegramId) throws SQLException {
