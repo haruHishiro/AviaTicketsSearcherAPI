@@ -31,7 +31,7 @@ public class UsersController {
     }
 
     @GetMapping("/isActiveUser")
-    public Response isActiveUser(@RequestParam long id, @RequestParam boolean isInternalId) {
+    public Response isActiveUser(@RequestParam long userId, @RequestParam boolean isInternalId) {
         //TODO logs to console
         Response response;
 
@@ -41,7 +41,7 @@ public class UsersController {
                         .setCode(200)
                         .setStatus("OK")
                         .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.isActiveUserViaInternalId(id)))
+                        .setResponseBody(new ValueBooleanModel(userService.isActiveUserViaInternalId(userId)))
                         .build();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -52,7 +52,7 @@ public class UsersController {
                         .setCode(200)
                         .setStatus("OK")
                         .setDescription("method in develop")
-                        .setResponseBody(new ValueBooleanModel(userService.isActiveUserViaTelegramId(id)))
+                        .setResponseBody(new ValueBooleanModel(userService.isActiveUserViaTelegramId(userId)))
                         .build();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
