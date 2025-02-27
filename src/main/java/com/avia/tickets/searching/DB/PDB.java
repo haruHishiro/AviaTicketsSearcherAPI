@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
 //import java.util.Date;
+import java.sql.*;
 
 public class PDB {
     /*
@@ -73,43 +74,104 @@ public class PDB {
      * =====================================================================================
      */
 
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/AirBase";
+    private static final String DB_URL = "jdbc:postgresql://127.0.0.1/5432";
     private static final String USER = "postgres";
-    private static final String PASS = "toor";
+    private static final String PASS = "pass";
+
+    //connect
+    public Connection connect() throws SQLException {
+        return DriverManager.getConnection(DB_URL, USER, PASS);
+    }
+
+    private static final String SELECT_ISACTIVE_USER_VIA_TELEGRAM_ID = "SELECT isActive FROM users WHERE telegramId = ?";
+    private static final String SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID = "SELECT isActive FROM users WHERE id = ?";
+    private static final String DISABLE_USER_VIA_TELEGRAM_ID = "UPDATE users SET isActive = false WHERE telegramId = ?";
+    private static final String DISABLE_USER_VIA_INTERNAL_ID = "UPDATE users SET isActive = false WHERE id = ?";
+    private static final String ENABLE_USER_VIA_TELEGRAM_ID = "UPDATE users SET isActive = true WHERE telegramId = ?";
+    private static final String ENABLE_USER_VIA_INTERNAL_ID = "UPDATE users SET isActive = true WHERE id = ?";
+    private static final String CHECK_USER_IN_DB = "SELECT * FROM users WHERE telegramId = ?";
+    private static final String CREATE_USER = "INSERT INTO users (telegramId, isActive) VALUES (?, true)";
 
     public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this telegram id
-        return telegramId == 1;
+
+        Connection connection = connect();
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_ISACTIVE_USER_VIA_TELEGRAM_ID);
+        prst_for_telegramid.setLong(1, telegramId);
+        ResultSet rs = prst_for_telegramid.executeQuery();
+        return rs.getBoolean("isActive");
     }
 
     public boolean isActiveUserViaInternalId(long internalId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this internal id
-        return internalId == 1;
+
+        Connection connection = connect();
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID);
+        prst_for_telegramid.setLong(1, internalId);
+        ResultSet rs = prst_for_telegramid.executeQuery();
+        return rs.getBoolean("isActive");
     }
 
     public boolean disableUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to false for user with this telegram id
-        return false;
+        Connection connection = connect();
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(DISABLE_USER_VIA_TELEGRAM_ID);
+        prst_for_telegramid.setLong(1, telegramId);
+        ResultSet rs = prst_for_telegramid.executeQuery();
+        return rs.getBoolean("isActive");
     }
 
     public boolean disableUserViaInternalId(long internalId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to false for user with this internal id
-        return false;
+
+        Connection connection = connect();
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(DISABLE_USER_VIA_INTERNAL_ID);
+        prst_for_telegramid.setLong(1, internalId);
+        ResultSet rs = prst_for_telegramid.executeQuery();
+        return rs.getBoolean("isActive");
     }
 
     public boolean enableUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to true for user with this telegram id
-        return false;
+
+        Connection connection = connect();
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(ENABLE_USER_VIA_TELEGRAM_ID);
+        prst_for_telegramid.setLong(1, telegramId);
+        ResultSet rs = prst_for_telegramid.executeQuery();
+        return rs.getBoolean("isActive");
     }
 
     public boolean enableUserViaInternalId(long internalId) throws SQLException {
         //TODO the method should change state of "isActive" field from table users to true for user with this internal id
-        return false;
+
+        Connection connection = connect();
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(ENABLE_USER_VIA_INTERNAL_ID);
+        prst_for_telegramid.setLong(1, internalId);
+        ResultSet rs = prst_for_telegramid.executeQuery();
+        return rs.getBoolean("isActive");
     }
 
     public boolean createUser(long telegramId) throws SQLException {
         //TODO the method should create a new user with this telegram id, if user with this telegram id is not already exist
-        return false;
+
+        /* String CHECK_USER_IN_DB = "SELECT * FROM users WHERE telegramId = ?";
+        String CREATE_USER = "INSERT INTO users (telegramId, isActive) VALUES (?, true)";*/
+
+        Connection connection = connect();
+
+        PreparedStatement check_user = connection.prepareStatement(CHECK_USER_IN_DB);
+        check_user.setLong(1, telegramId);
+        ResultSet check = check_user.executeQuery();
+
+        //Not sure check.next is okk?
+        if (!check.next()) {
+            PreparedStatement create_user = connection.prepareStatement(CREATE_USER);
+            create_user.setLong(1, telegramId);
+            create_user.executeQuery();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isUserExistViaTelegramId(long telegramId) throws SQLException {
