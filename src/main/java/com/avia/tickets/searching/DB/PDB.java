@@ -203,7 +203,6 @@ public class PDB {
         get_internal_id.setLong(1, telegramId);
         ResultSet rs = get_internal_id.executeQuery();
         return rs.getLong("id");
-
     }
 
     public long getTelegramIdViaInternalId(long internalId) throws SQLException {
