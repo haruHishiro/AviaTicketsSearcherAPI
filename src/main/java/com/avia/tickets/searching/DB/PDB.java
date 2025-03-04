@@ -68,12 +68,6 @@ public class PDB {
      * =====================================================================================
      */
 
-    /*
-     * =====================================================================================
-     *                               User service section START
-     * =====================================================================================
-     */
-
     private static final String DB_URL = "jdbc:postgresql://127.0.0.1/5432";
     private static final String USER = "postgres";
     private static final String PASS = "pass";
@@ -83,7 +77,13 @@ public class PDB {
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
-    private static final String SELECT_ISACTIVE_USER_VIA_TELEGRAM_ID = "SELECT isActive FROM users WHERE telegramId = ?";
+    /*
+     * =====================================================================================
+     *                               User service section START
+     * =====================================================================================
+     */
+
+    private static final String SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID = "SELECT isActive FROM users WHERE telegramId = ?";
     private static final String SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID = "SELECT isActive FROM users WHERE id = ?";
     private static final String DISABLE_USER_VIA_TELEGRAM_ID = "UPDATE users SET isActive = false WHERE telegramId = ?";
     private static final String DISABLE_USER_VIA_INTERNAL_ID = "UPDATE users SET isActive = false WHERE id = ?";
@@ -93,12 +93,13 @@ public class PDB {
     private static final String CREATE_USER = "INSERT INTO users (telegramId, isActive) VALUES (?, true)";
     private static final String CHECK_USER_IN_DB_VIA_ID = "SELECT * FROM users WHERE id = ?";
     private static final String GET_INTERNAL_ID = "SELECT id FROM users WHERE telegramId = ?";
+    private static final String GET_TELEGRAM_ID = "SELECT telegramId FROM users WHERE id = ?";
 
     public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this telegram id
 
         Connection connection = connect();
-        PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_ISACTIVE_USER_VIA_TELEGRAM_ID);
+        PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID);
         prst_for_telegramid.setLong(1, telegramId);
         ResultSet rs = prst_for_telegramid.executeQuery();
         return rs.getBoolean("isActive");
@@ -153,7 +154,7 @@ public class PDB {
         return rs.getBoolean("isActive");
     }
 
-    public boolean createUser(long telegramId) throws SQLException {
+    public void createUser(long telegramId) throws SQLException {
         //TODO the method should create a new user with this telegram id, if user with this telegram id is not already exist
 
         /* String CHECK_USER_IN_DB = "SELECT * FROM users WHERE telegramId = ?";
@@ -170,10 +171,7 @@ public class PDB {
             PreparedStatement create_user = connection.prepareStatement(CREATE_USER);
             create_user.setLong(1, telegramId);
             create_user.executeQuery();
-            return true;
-        } else {
-            return false;
-        }
+        } else throw new SQLException();
     }
 
     public boolean isUserExistViaTelegramId(long telegramId) throws SQLException {
@@ -211,13 +209,12 @@ public class PDB {
     public long getTelegramIdViaInternalId(long internalId) throws SQLException {
         //TODO the method should access the database and get the telegram id via the internal identifier
         Connection connection = connect();
-        String GET_TELEGRAM_ID = "SELECT telegramId FROM users WHERE id = ?";
+        //String GET_TELEGRAM_ID = "SELECT telegramId FROM users WHERE id = ?";
         PreparedStatement get_telegram_id = connection.prepareStatement(GET_TELEGRAM_ID);
         get_telegram_id.setLong(1, internalId);
         ResultSet rs = get_telegram_id.executeQuery();
         return rs.getLong("telegramId");
     }
-
     /*
      * =====================================================================================
      *                               User service section END
