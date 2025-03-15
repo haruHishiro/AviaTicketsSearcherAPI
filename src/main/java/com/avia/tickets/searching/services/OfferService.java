@@ -19,35 +19,35 @@ import java.util.ArrayList;
 public class OfferService {
     PDB pdb = new PDB();
 
-    public ArrayList<Offer> getUserOffersViaTelegramId(long telegramId) throws SQLException {
-        return pdb.getUserOffersViaTelegramId(telegramId);
-    }
-
-    public ArrayList<Offer> getUserOffersViaInternalId(long internalId) throws SQLException {
-        return pdb.getUserOffersViaInternalId(internalId);
-    }
-
-    public ArrayList<Offer> getUserActiveOffersViaTelegramId(long telegramId) throws SQLException {
-        return pdb.getUserActiveOffersViaTelegramId(telegramId);
-    }
-
-    public ArrayList<Offer> getUserActiveOffersViaInternalId(long internalId) throws SQLException {
-        return pdb.getUserActiveOffersViaInternalId(internalId);
-    }
-
-    public ArrayList<Offer> getUserNonActiveOffersViaTelegramId(long telegramId) throws SQLException {
-        return pdb.getUserNonActiveOffersViaTelegramId(telegramId);
-    }
-
-    public ArrayList<Offer> getUserNonActiveOffersViaInternalId(long internalId) throws SQLException {
-        return pdb.getUserNonActiveOffersViaInternalId(internalId);
-    }
-
-    public boolean addOffer(long id, boolean isInternalUserId, Offer offer) throws SQLException {
-        if (isInternalUserId) {
-            return pdb.addOffer(id, offer);
+    public ArrayList<Offer> getUserOffers(long userId, boolean isInternalId) throws SQLException {
+        if(isInternalId) {
+            return pdb.getUserOffersViaInternalId(userId);
         } else {
-            return pdb.addOffer(pdb.getInternalIdViaTelegramId(id), offer);
+            return pdb.getUserOffersViaTelegramId(userId);
+        }
+    }
+
+    public ArrayList<Offer> getUserActiveOffers(long userId, boolean isInternalId) throws SQLException {
+        if(isInternalId) {
+            return pdb.getUserActiveOffersViaInternalId(userId);
+        } else {
+            return pdb.getUserActiveOffersViaTelegramId(userId);
+        }
+    }
+
+    public ArrayList<Offer> getUserNonActiveOffers(long userId, boolean isInternalId) throws SQLException {
+        if(isInternalId) {
+            return pdb.getUserNonActiveOffersViaInternalId(userId);
+        } else {
+            return pdb.getUserNonActiveOffersViaTelegramId(userId);
+        }
+    }
+
+    public boolean addOffer(long userId, boolean isInternalUserId, Offer offer) throws SQLException {
+        if (isInternalUserId) {
+            return pdb.addOffer(userId, offer);
+        } else {
+            return pdb.addOffer(pdb.getInternalIdViaTelegramId(userId), offer);
         }
     }
 
