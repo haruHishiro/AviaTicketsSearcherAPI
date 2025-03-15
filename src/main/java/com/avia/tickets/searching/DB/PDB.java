@@ -72,17 +72,6 @@ public class PDB {
     private static final String USER = "postgres";
     private static final String PASS = "pass";
 
-    //connect
-    public Connection connect() throws SQLException {
-        return DriverManager.getConnection(DB_URL, USER, PASS);
-    }
-
-    /*
-     * =====================================================================================
-     *                               User service section START
-     * =====================================================================================
-     */
-
     private static final String SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID = "SELECT isActive FROM users WHERE telegramId = ?";
     private static final String SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID = "SELECT isActive FROM users WHERE id = ?";
     private static final String DISABLE_USER_VIA_TELEGRAM_ID = "UPDATE users SET isActive = false WHERE telegramId = ?";
@@ -94,6 +83,18 @@ public class PDB {
     private static final String CHECK_USER_IN_DB_VIA_ID = "SELECT * FROM users WHERE id = ?";
     private static final String GET_INTERNAL_ID = "SELECT id FROM users WHERE telegramId = ?";
     private static final String GET_TELEGRAM_ID = "SELECT telegramId FROM users WHERE id = ?";
+
+    //connect
+    public Connection connect() throws SQLException {
+        return DriverManager.getConnection(DB_URL, USER, PASS);
+    }
+
+    /*
+     * =====================================================================================
+     *                               User service section START
+     * =====================================================================================
+     */
+
 
     public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return state about "isActive" field from table users for user with this telegram id
@@ -156,22 +157,11 @@ public class PDB {
 
     public void createUser(long telegramId) throws SQLException {
         //TODO the method should create a new user with this telegram id, if user with this telegram id is not already exist
-
-        /* String CHECK_USER_IN_DB = "SELECT * FROM users WHERE telegramId = ?";
-        String CREATE_USER = "INSERT INTO users (telegramId, isActive) VALUES (?, true)";*/
-
         Connection connection = connect();
 
-        PreparedStatement check_user = connection.prepareStatement(CHECK_USER_IN_DB);
-        check_user.setLong(1, telegramId);
-        ResultSet check = check_user.executeQuery();
-
-        //check.next is okk
-        if (!check.next()) {
-            PreparedStatement create_user = connection.prepareStatement(CREATE_USER);
-            create_user.setLong(1, telegramId);
-            create_user.executeQuery();
-        } else throw new SQLException();
+        PreparedStatement create_user = connection.prepareStatement(CREATE_USER);
+        create_user.setLong(1, telegramId);
+        create_user.executeQuery();
     }
 
     public boolean isUserExistViaTelegramId(long telegramId) throws SQLException {
