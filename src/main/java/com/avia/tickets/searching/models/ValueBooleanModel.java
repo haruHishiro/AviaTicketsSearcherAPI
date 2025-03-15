@@ -7,7 +7,7 @@
 package com.avia.tickets.searching.models;
 
 
-public final class ValueBooleanModel extends BaseModel {
+public class ValueBooleanModel extends BaseModel {
     private boolean value;
 
     public ValueBooleanModel(boolean value) {
