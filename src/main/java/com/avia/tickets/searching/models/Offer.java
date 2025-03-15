@@ -4,16 +4,19 @@ import java.util.Date;
 
 public class Offer extends BaseModel {
     private long offerId;
-    private long internalId;
+    private long userInternalId;
     private boolean isActive;
-    private String departurePointType;
-    private String destinationPointType;
     private String departurePointName;
     private String destinationPointName;
     private Date startDate;
     private Date endDate;
     private boolean withLuggage;
     private int ticketMaxCost;
+    private short changesCount;
+
+    public static OfferBuilder builder() {
+        return new Offer().new OfferBuilder();
+    }
 
     public class OfferBuilder {
         private OfferBuilder() {
@@ -23,23 +26,13 @@ public class Offer extends BaseModel {
             Offer.this.offerId = offerId;
             return this;
         }
-        public OfferBuilder setInternalId(long internalId){
-            Offer.this.internalId = internalId;
+        public OfferBuilder setUserInternalId(long userInternalId){
+            Offer.this.userInternalId = userInternalId;
             return this;
         }
 
         public OfferBuilder setIsActive(boolean isActive){
             Offer.this.isActive = isActive;
-            return this;
-        }
-
-        public OfferBuilder setDeparturePointType(String departurePointType){
-            Offer.this.departurePointType = departurePointType;
-            return this;
-        }
-
-        public OfferBuilder setDestinationPointType(String destinationPointType){
-            Offer.this.destinationPointType = destinationPointType;
             return this;
         }
 
@@ -73,6 +66,11 @@ public class Offer extends BaseModel {
             return this;
         }
 
+        public OfferBuilder setChangesCount(short changesCount) {
+            Offer.this.changesCount = changesCount;
+            return this;
+        }
+
         public Offer build() {
             return Offer.this;
         }
@@ -82,20 +80,12 @@ public class Offer extends BaseModel {
         return offerId;
     }
 
-    public long getInternalId() {
-        return internalId;
+    public long getUserInternalId() {
+        return userInternalId;
     }
 
     public boolean isActive() {
         return isActive;
-    }
-
-    public String getDeparturePointType() {
-        return departurePointType;
-    }
-
-    public String getDestinationPointType() {
-        return destinationPointType;
     }
 
     public String getDeparturePointName() {
@@ -122,5 +112,7 @@ public class Offer extends BaseModel {
         return ticketMaxCost;
     }
 
-
+    public short getChangesCount() {
+        return changesCount;
+    }
 }
