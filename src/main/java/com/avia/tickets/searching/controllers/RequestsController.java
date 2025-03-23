@@ -84,10 +84,13 @@ public class RequestsController {
     @GetMapping("/addRequest")
     public Response addRequest(@RequestParam long userId, @RequestParam boolean isInternalId, @RequestParam String departure,
                                @RequestParam String destination, @RequestParam Date startDate, @RequestParam Date endDate,
-                               @RequestParam boolean withLuggage, @RequestParam int ticketMaxCost, @RequestParam short changesCount){
+                               @RequestParam boolean withLuggage, @RequestParam int ticketMaxCost, @RequestParam short changesCount,
+                               @RequestParam String destinationCountry, @RequestParam String departureCountry){
         Response response = new Response();
         try {
             Request request = Request.builder()
+                    .setDestinationPointCountryName(destinationCountry)
+                    .setDeparturePointCountryName(departureCountry)
                     .setDeparturePointName(departure)
                     .setDestinationPointName(destination)
                     .setStartDate(startDate)
@@ -95,7 +98,7 @@ public class RequestsController {
                     .setWithLuggage(withLuggage)
                     .setTicketMaxCost(ticketMaxCost)
                     .setChangesCount(changesCount)
-                    .build();;
+                    .build();
 
             response = Response.builder()
                     .setCode(200)
