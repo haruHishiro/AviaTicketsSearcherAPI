@@ -23,7 +23,7 @@ public class RequestsService {
         if(isInternalId) {
             return pdb.getUserRequestsViaInternalId(userId);
         } else {
-            return pdb.getUserRequestsViaTelegramId(userId);
+            return pdb.getUserRequestsViaInternalId(pdb.getInternalIdViaTelegramId(userId));
         }
     }
 
@@ -31,7 +31,7 @@ public class RequestsService {
         if(isInternalId) {
             return pdb.getUserActiveRequestsViaInternalId(userId);
         } else {
-            return pdb.getUserActiveRequestsViaTelegramId(userId);
+            return pdb.getUserActiveRequestsViaInternalId(pdb.getInternalIdViaTelegramId(userId));
         }
     }
 
@@ -39,7 +39,7 @@ public class RequestsService {
         if(isInternalId) {
             return pdb.getUserNonActiveRequestsViaInternalId(userId);
         } else {
-            return pdb.getUserNonActiveRequestsViaTelegramId(userId);
+            return pdb.getUserNonActiveRequestsViaInternalId(pdb.getInternalIdViaTelegramId(userId));
         }
     }
 
@@ -52,14 +52,14 @@ public class RequestsService {
     }
 
     public boolean disableRequest(long offerId) throws SQLException {
-        return pdb.disableRequests(offerId);
+        return pdb.disableRequest(offerId);
     }
 
     public boolean enableRequest(long offerId) throws SQLException {
-        return pdb.enableRequests(offerId);
+        return pdb.enableRequest(offerId);
     }
 
     public boolean isActiveRequest(long offerId) throws SQLException {
-        return pdb.isActiveRequests(offerId);
+        return pdb.isActiveRequest(offerId);
     }
 }

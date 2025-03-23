@@ -10,8 +10,8 @@ public class Request extends BaseModel {
     private String destinationPointCountryName;
     private String departurePointName;
     private String destinationPointName;
-    private Date startDate;
-    private Date endDate;
+    private java.sql.Date startDate;
+    private java.sql.Date endDate;
     private boolean withLuggage;
     private int ticketMaxCost;
     private short changesCount;
@@ -59,12 +59,12 @@ public class Request extends BaseModel {
             return this;
         }
 
-        public RequestBuilder setStartDate(Date startDate) {
+        public RequestBuilder setStartDate(java.sql.Date startDate) {
             Request.this.startDate = startDate;
             return this;
         }
 
-        public RequestBuilder setEndDate(Date endDate) {
+        public RequestBuilder setEndDate(java.sql.Date endDate) {
             Request.this.endDate = endDate;
             return this;
         }
@@ -117,11 +117,11 @@ public class Request extends BaseModel {
         return destinationPointName;
     }
 
-    public Date getStartDate() {
+    public java.sql.Date getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public java.sql.Date getEndDate() {
         return endDate;
     }
 
