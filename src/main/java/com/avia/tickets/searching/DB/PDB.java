@@ -16,61 +16,10 @@ import java.sql.DriverManager;
 import java.sql.*;
 
 public class PDB {
-    /*
-     * =====================================================================================
-     *                               General description START
-     * =====================================================================================
-     */
-
-    /*
-     *
-     * +==========+
-     * |   users  | <-- Table Name
-     * +==========+
-     * |    id    | <-- Internal identifier
-     * +----------+
-     * |   tg id  | <-- Telegram identifier (external)
-     * +----------+
-     * | isActive | <-- If user allowed / disallowed messaging with bot || True - allowed; False - disallowed
-     * +==========+
-     *
-     * +==========+
-     * |  offers  | <-- Table Name
-     * +==========+
-     * |    id    | <-- Request identifier
-     * +----------+
-     * |  user id | <-- Owner id (user internal id)
-     * +----------+
-     * | isActive | <-- If offer allowed / disallowed to parse / scrap || True - allowed; False - disallowed
-     * +----------+
-     * | dep type | <-- Departure point type id
-     * +----------+
-     * | dst type | <-- Destination point type id
-     * +----------+
-     * |  dep id  | <-- Departure point internal id
-     * +----------+
-     * |  dst id  | <-- Destination point internal id
-     * +----------+
-     * |  st date | <-- Date of dispatch
-     * +----------+
-     * | end date | <-- Return ticket date
-     * +----------+
-     * |  luggage | <-- is luggage need || True - need; False - not need
-     * +----------+
-     * | max cost | <-- ticket max cost
-     * +==========+
-     *
-     */
-
-    /*
-     * =====================================================================================
-     *                               General description END
-     * =====================================================================================
-     */
-
     private static final String DB_URL = "jdbc:postgresql://127.0.0.1/5432";
     private static final String USER = "postgres";
     private static final String PASS = "pass";
+
 
     private static final String SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID = "SELECT is_active FROM users WHERE telegram_id = ?";
     private static final String SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID = "SELECT is_active FROM users WHERE id = ?";
@@ -115,8 +64,6 @@ public class PDB {
 
 
     public boolean isActiveUserViaTelegramId(long telegramId) throws SQLException {
-        //TODO the method should return state about "isActive" field from table users for user with this telegram id
-
         Connection connection = connect();
         PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID);
         prst_for_telegramid.setLong(1, telegramId);
@@ -125,8 +72,6 @@ public class PDB {
     }
 
     public boolean isActiveUserViaInternalId(long internalId) throws SQLException {
-        //TODO the method should return state about "isActive" field from table users for user with this internal id
-
         Connection connection = connect();
         PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID);
         prst_for_telegramid.setLong(1, internalId);
@@ -135,7 +80,6 @@ public class PDB {
     }
 
     public boolean disableUserViaTelegramId(long telegramId) throws SQLException {
-        //TODO the method should change state of "isActive" field from table users to false for user with this telegram id
         Connection connection = connect();
         PreparedStatement prst_for_telegramid = connection.prepareStatement(DISABLE_USER_VIA_TELEGRAM_ID);
         prst_for_telegramid.setLong(1, telegramId);
@@ -144,8 +88,6 @@ public class PDB {
     }
 
     public boolean disableUserViaInternalId(long internalId) throws SQLException {
-        //TODO the method should change state of "isActive" field from table users to false for user with this internal id
-
         Connection connection = connect();
         PreparedStatement prst_for_telegramid = connection.prepareStatement(DISABLE_USER_VIA_INTERNAL_ID);
         prst_for_telegramid.setLong(1, internalId);
@@ -154,8 +96,6 @@ public class PDB {
     }
 
     public boolean enableUserViaTelegramId(long telegramId) throws SQLException {
-        //TODO the method should change state of "isActive" field from table users to true for user with this telegram id
-
         Connection connection = connect();
         PreparedStatement prst_for_telegramid = connection.prepareStatement(ENABLE_USER_VIA_TELEGRAM_ID);
         prst_for_telegramid.setLong(1, telegramId);
@@ -164,8 +104,6 @@ public class PDB {
     }
 
     public boolean enableUserViaInternalId(long internalId) throws SQLException {
-        //TODO the method should change state of "isActive" field from table users to true for user with this internal id
-
         Connection connection = connect();
         PreparedStatement prst_for_telegramid = connection.prepareStatement(ENABLE_USER_VIA_INTERNAL_ID);
         prst_for_telegramid.setLong(1, internalId);
@@ -174,18 +112,14 @@ public class PDB {
     }
 
     public void createUser(long telegramId) throws SQLException {
-        //TODO the method should create a new user with this telegram id, if user with this telegram id is not already exist
         Connection connection = connect();
-
         PreparedStatement create_user = connection.prepareStatement(CREATE_USER);
         create_user.setLong(1, telegramId);
         create_user.executeQuery();
     }
 
     public boolean isUserExistViaTelegramId(long telegramId) throws SQLException {
-        //TODO the method should return the state of existence of the user with the given telegram id
         Connection connection = connect();
-
         PreparedStatement check_user = connection.prepareStatement(CHECK_USER_IN_DB);
         check_user.setLong(1, telegramId);
         ResultSet check = check_user.executeQuery();
@@ -193,18 +127,14 @@ public class PDB {
     }
 
     public boolean isUserExistViaInternalId(long internalId) throws SQLException {
-        //TODO the method should return the state of existence of the user with the given internal id
         Connection connection = connect();
-
         PreparedStatement check_user_id = connection.prepareStatement(CHECK_USER_IN_DB_VIA_ID);
         check_user_id.setLong(1, internalId);
         ResultSet check = check_user_id.executeQuery();
-
         return !check.next();
     }
 
     public long getInternalIdViaTelegramId(long telegramId) throws SQLException {
-        //TODO the method should access the database and get the internal id via the telegram identifier
         Connection connection = connect();
         PreparedStatement get_internal_id = connection.prepareStatement(GET_INTERNAL_ID);
         get_internal_id.setLong(1, telegramId);
@@ -213,7 +143,6 @@ public class PDB {
     }
 
     public long getTelegramIdViaInternalId(long internalId) throws SQLException {
-        //TODO the method should access the database and get the telegram id via the internal identifier
         Connection connection = connect();
         PreparedStatement get_telegram_id = connection.prepareStatement(GET_TELEGRAM_ID);
         get_telegram_id.setLong(1, internalId);
@@ -266,7 +195,6 @@ public class PDB {
     }
 
     public ArrayList<Request> getUserRequestsViaInternalId(long internalId) throws SQLException {
-        //TODO the method should return list of all offers of user with the passed internal identifier
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(GET_USER_ALL_REQUESTS);
         ps.setLong(1, internalId);
@@ -300,7 +228,6 @@ public class PDB {
     }
 
     public ArrayList<Request> getUserActiveRequestsViaInternalId(long internalId) throws SQLException {
-        //TODO the method should return list of active offers of user with the passed internal identifier
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(GET_USER_ACTIVE_REQUESTS);
         ps.setLong(1, internalId);
@@ -334,7 +261,6 @@ public class PDB {
     }
 
     public ArrayList<Request> getUserNonActiveRequestsViaInternalId(long internalId) throws SQLException {
-        //TODO the method should return list of non active offers of user with the passed internal identifier
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(GET_USER_NON_ACTIVE_REQUESTS);
         ps.setLong(1, internalId);
@@ -368,7 +294,6 @@ public class PDB {
     }
 
     public ArrayList<Request> getRequests() throws SQLException {
-        //TODO the method should return list of all offers of user with the passed internal identifier
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(GET_ALL_REQUESTS);
         ResultSet rs = ps.executeQuery();
@@ -401,7 +326,6 @@ public class PDB {
     }
 
     public ArrayList<Request> getActiveRequests() throws SQLException {
-        //TODO the method should return list of active offers of user with the passed internal identifier
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(GET_ACTIVE_REQUESTS);
         ResultSet rs = ps.executeQuery();
@@ -434,7 +358,6 @@ public class PDB {
     }
 
     public ArrayList<Request> getNonActiveRequests() throws SQLException {
-        //TODO the method should return list of non active offers of user with the passed internal identifier
         Connection connection = connect();
         PreparedStatement ps = connection.prepareStatement(GET_NON_ACTIVE_REQUESTS);
         ResultSet rs = ps.executeQuery();
@@ -467,7 +390,6 @@ public class PDB {
     }
 
     public boolean addRequest(long internalId, Request requestFields) throws SQLException {
-        //TODO the method should create a new offer for user with passed internal identifier if offer with the passed fields for this user not exist
         Connection connection = connect();
 
         long departurePointCountryIATA = getIATAIdForCountryViaCountryName(requestFields.getDeparturePointCountryName());
@@ -494,7 +416,7 @@ public class PDB {
     }
 
     public boolean disableRequest(long requestId) throws SQLException {
-        //TODO the method should set field isActive to false of offer with the passed identifier
+
         Connection connection = connect();
 
         PreparedStatement ps = connection.prepareStatement(DISABLE_REQUEST_VIA_ID);
@@ -504,7 +426,7 @@ public class PDB {
     }
 
     public boolean enableRequest(long requestId) throws SQLException {
-        //TODO the method should set field isActive to true of offer with the passed identifier
+
         Connection connection = connect();
 
         PreparedStatement ps = connection.prepareStatement(ENABLE_REQUEST_VIA_ID);
@@ -514,7 +436,7 @@ public class PDB {
     }
 
     public boolean isActiveRequest(long requestId) throws SQLException {
-        //TODO the method should return the state of the "isActive" field from table "offers" of offer with the passed identifier
+
         Connection connection = connect();
 
         PreparedStatement ps = connection.prepareStatement(IS_ACTIVE_REQUEST_VIA_ID);
