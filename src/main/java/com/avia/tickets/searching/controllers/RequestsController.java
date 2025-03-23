@@ -29,12 +29,12 @@ public class RequestsController {
     private final RequestsService requestsService;
 
     @Autowired
-    public RequestsController(RequestsService requestsService){
+    public RequestsController(RequestsService requestsService) {
         this.requestsService = requestsService;
     }
 
     @GetMapping("/getUserRequests")
-    public Response getUserRequests(@RequestParam long userId, @RequestParam boolean isInternalId){
+    public Response getUserRequests(@RequestParam long userId, @RequestParam boolean isInternalId) {
         Response response = new Response();
         try {
             response = Response.builder()
@@ -50,7 +50,7 @@ public class RequestsController {
     }
 
     @GetMapping("/getUserActiveRequests")
-    public Response getUserActiveRequests(@RequestParam long userId, @RequestParam boolean isInternalId){
+    public Response getUserActiveRequests(@RequestParam long userId, @RequestParam boolean isInternalId) {
         Response response = new Response();
         try {
             response = Response.builder()
@@ -66,7 +66,7 @@ public class RequestsController {
     }
 
     @GetMapping("/getUserNonActiveRequests")
-    public Response getUserNonActiveRequests(@RequestParam long userId, @RequestParam boolean isInternalId){
+    public Response getUserNonActiveRequests(@RequestParam long userId, @RequestParam boolean isInternalId) {
         Response response = new Response();
         try {
             response = Response.builder()
@@ -85,10 +85,11 @@ public class RequestsController {
     public Response addRequest(@RequestParam long userId, @RequestParam boolean isInternalId, @RequestParam String departure,
                                @RequestParam String destination, @RequestParam Date startDate, @RequestParam Date endDate,
                                @RequestParam boolean withLuggage, @RequestParam int ticketMaxCost, @RequestParam short changesCount,
-                               @RequestParam String destinationCountry, @RequestParam String departureCountry){
+                               @RequestParam String destinationCountry, @RequestParam String departureCountry, @RequestParam boolean isDirect) {
         Response response = new Response();
         try {
-            Request request = Request.builder()
+            Request request;
+            request = Request.builder()
                     .setDestinationPointCountryName(destinationCountry)
                     .setDeparturePointCountryName(departureCountry)
                     .setDeparturePointName(departure)
@@ -98,6 +99,7 @@ public class RequestsController {
                     .setWithLuggage(withLuggage)
                     .setTicketMaxCost(ticketMaxCost)
                     .setChangesCount(changesCount)
+                    .setIsDirect(isDirect)
                     .build();
 
             response = Response.builder()
@@ -114,14 +116,14 @@ public class RequestsController {
     }
 
     @GetMapping("/disableRequest")
-    public Response disableRequest(@RequestParam long offerId){
+    public Response disableRequest(@RequestParam long requestId) {
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(requestsService.disableRequest(offerId)))
+                    .setResponseBody(new ValueBooleanModel(requestsService.disableRequest(requestId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -130,14 +132,14 @@ public class RequestsController {
     }
 
     @GetMapping("/enableRequest")
-    public Response enableRequest(@RequestParam long offerId){
+    public Response enableRequest(@RequestParam long requestId) {
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(requestsService.enableRequest(offerId)))
+                    .setResponseBody(new ValueBooleanModel(requestsService.enableRequest(requestId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -146,7 +148,7 @@ public class RequestsController {
     }
 
     @GetMapping("/isActiveRequest")
-    public Response isActiveRequest(@RequestParam long offerId){
+    public Response isActiveRequest(@RequestParam long offerId) {
         Response response = new Response();
         try {
             response = Response.builder()

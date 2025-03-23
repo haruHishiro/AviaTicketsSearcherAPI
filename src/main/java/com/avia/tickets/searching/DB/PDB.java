@@ -91,8 +91,8 @@ public class PDB {
     private static final String GET_USER_ALL_REQUESTS = "SELECT * FROM requests where user_internal_id = ?";
     private static final String INSERT_REQUEST = "INSERT INTO requests " +
             "(is_active, user_internal_id , departure_point_country_id, destination_point_country_id, departure_point_id, destination_point_id, " +
-            "start_date, end_date, is_need_luggage, changes_count, ticket_max_cost)" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "start_date, end_date, is_need_luggage, changes_count, ticket_max_cost, is_direct)" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String ENABLE_REQUEST_VIA_ID = "UPDATE requests SET is_active = true WHERE telegramId = ?";
     private static final String DISABLE_REQUEST_VIA_ID = "UPDATE requests SET is_active = false WHERE telegramId = ?";
     private static final String IS_ACTIVE_REQUEST_VIA_ID = "SELECT is_active FROM requests WHERE id = ?";
@@ -121,7 +121,7 @@ public class PDB {
         PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID);
         prst_for_telegramid.setLong(1, telegramId);
         ResultSet rs = prst_for_telegramid.executeQuery();
-        return rs.getBoolean("isActive");
+        return rs.getBoolean("is_active");
     }
 
     public boolean isActiveUserViaInternalId(long internalId) throws SQLException {
@@ -131,7 +131,7 @@ public class PDB {
         PreparedStatement prst_for_telegramid = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID);
         prst_for_telegramid.setLong(1, internalId);
         ResultSet rs = prst_for_telegramid.executeQuery();
-        return rs.getBoolean("isActive");
+        return rs.getBoolean("is_active");
     }
 
     public boolean disableUserViaTelegramId(long telegramId) throws SQLException {
@@ -140,7 +140,7 @@ public class PDB {
         PreparedStatement prst_for_telegramid = connection.prepareStatement(DISABLE_USER_VIA_TELEGRAM_ID);
         prst_for_telegramid.setLong(1, telegramId);
         ResultSet rs = prst_for_telegramid.executeQuery();
-        return rs.getBoolean("isActive");
+        return rs.getBoolean("is_active");
     }
 
     public boolean disableUserViaInternalId(long internalId) throws SQLException {
@@ -150,7 +150,7 @@ public class PDB {
         PreparedStatement prst_for_telegramid = connection.prepareStatement(DISABLE_USER_VIA_INTERNAL_ID);
         prst_for_telegramid.setLong(1, internalId);
         ResultSet rs = prst_for_telegramid.executeQuery();
-        return rs.getBoolean("isActive");
+        return rs.getBoolean("is_active");
     }
 
     public boolean enableUserViaTelegramId(long telegramId) throws SQLException {
@@ -160,7 +160,7 @@ public class PDB {
         PreparedStatement prst_for_telegramid = connection.prepareStatement(ENABLE_USER_VIA_TELEGRAM_ID);
         prst_for_telegramid.setLong(1, telegramId);
         ResultSet rs = prst_for_telegramid.executeQuery();
-        return rs.getBoolean("isActive");
+        return rs.getBoolean("is_active");
     }
 
     public boolean enableUserViaInternalId(long internalId) throws SQLException {
@@ -170,7 +170,7 @@ public class PDB {
         PreparedStatement prst_for_telegramid = connection.prepareStatement(ENABLE_USER_VIA_INTERNAL_ID);
         prst_for_telegramid.setLong(1, internalId);
         ResultSet rs = prst_for_telegramid.executeQuery();
-        return rs.getBoolean("isActive");
+        return rs.getBoolean("is_active");
     }
 
     public void createUser(long telegramId) throws SQLException {
@@ -218,7 +218,7 @@ public class PDB {
         PreparedStatement get_telegram_id = connection.prepareStatement(GET_TELEGRAM_ID);
         get_telegram_id.setLong(1, internalId);
         ResultSet rs = get_telegram_id.executeQuery();
-        return rs.getLong("telegramId");
+        return rs.getLong("telegram_id");
     }
     /*
      * =====================================================================================
@@ -291,6 +291,7 @@ public class PDB {
                     .setWithLuggage(rs.getBoolean("is_need_luggage"))
                     .setTicketMaxCost(rs.getInt("ticket_max_cost"))
                     .setChangesCount(rs.getShort("changes_count"))
+                    .setIsDirect(rs.getBoolean("is_direct"))
                     .build();
             requests.add(request);
         }
@@ -324,6 +325,7 @@ public class PDB {
                     .setWithLuggage(rs.getBoolean("is_need_luggage"))
                     .setTicketMaxCost(rs.getInt("ticket_max_cost"))
                     .setChangesCount(rs.getShort("changes_count"))
+                    .setIsDirect(rs.getBoolean("is_direct"))
                     .build();
             requests.add(request);
         }
@@ -357,6 +359,7 @@ public class PDB {
                     .setWithLuggage(rs.getBoolean("is_need_luggage"))
                     .setTicketMaxCost(rs.getInt("ticket_max_cost"))
                     .setChangesCount(rs.getShort("changes_count"))
+                    .setIsDirect(rs.getBoolean("is_direct"))
                     .build();
             requests.add(request);
         }
@@ -389,6 +392,7 @@ public class PDB {
                     .setWithLuggage(rs.getBoolean("is_need_luggage"))
                     .setTicketMaxCost(rs.getInt("ticket_max_cost"))
                     .setChangesCount(rs.getShort("changes_count"))
+                    .setIsDirect(rs.getBoolean("is_direct"))
                     .build();
             requests.add(request);
         }
@@ -421,6 +425,7 @@ public class PDB {
                     .setWithLuggage(rs.getBoolean("is_need_luggage"))
                     .setTicketMaxCost(rs.getInt("ticket_max_cost"))
                     .setChangesCount(rs.getShort("changes_count"))
+                    .setIsDirect(rs.getBoolean("is_direct"))
                     .build();
             requests.add(request);
         }
@@ -453,6 +458,7 @@ public class PDB {
                     .setWithLuggage(rs.getBoolean("is_need_luggage"))
                     .setTicketMaxCost(rs.getInt("ticket_max_cost"))
                     .setChangesCount(rs.getShort("changes_count"))
+                    .setIsDirect(rs.getBoolean("is_direct"))
                     .build();
             requests.add(request);
         }
@@ -469,7 +475,7 @@ public class PDB {
         long departurePointCityIATA = getIATAIdForCityViaCityName(requestFields.getDeparturePointName(), getCityIATACodeViaId(destinationPointCountryIATA));
         long destinationPointCityIATA = getIATAIdForCityViaCityName(requestFields.getDestinationPointName(), getCityIATACodeViaId(destinationPointCountryIATA));
 
-        PreparedStatement ps = connection.prepareStatement(DISABLE_REQUEST_VIA_ID);
+        PreparedStatement ps = connection.prepareStatement(INSERT_REQUEST);
         ps.setBoolean(1, requestFields.isActive());
         ps.setLong(2, requestFields.getUserInternalId());
         ps.setLong(3, departurePointCountryIATA);
@@ -481,6 +487,7 @@ public class PDB {
         ps.setBoolean(9, requestFields.isWithLuggage());
         ps.setShort(10, requestFields.getChangesCount());
         ps.setInt(11, requestFields.getChangesCount());
+        ps.setBoolean(12, requestFields.isDirect());
         ps.executeQuery();
 
         return true;

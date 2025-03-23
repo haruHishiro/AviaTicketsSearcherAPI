@@ -15,6 +15,7 @@ public class Request extends BaseModel {
     private boolean withLuggage;
     private int ticketMaxCost;
     private short changesCount;
+    private boolean isDirect;
 
     public static RequestBuilder builder() {
         return new Request().new RequestBuilder();
@@ -84,6 +85,11 @@ public class Request extends BaseModel {
             return this;
         }
 
+        public RequestBuilder setIsDirect(boolean isDirect) {
+            Request.this.isDirect = isDirect;
+            return this;
+        }
+
         public Request build() {
             return Request.this;
         }
@@ -135,5 +141,9 @@ public class Request extends BaseModel {
 
     public short getChangesCount() {
         return changesCount;
+    }
+
+    public boolean isDirect() {
+        return isDirect;
     }
 }
