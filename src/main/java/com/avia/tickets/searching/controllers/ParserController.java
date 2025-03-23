@@ -53,4 +53,30 @@ public class ParserController {
                 .build();
         return response;
     }
+
+    @GetMapping("/getTickets")
+    public Response getTickets() {
+        Response response = new Response();
+        response = Response.builder()
+                .setCode(200)
+                .setStatus("OK")
+                .setDescription("method in develop")
+                .setResponseBody(new StringModel(parserService.getToken()))
+                .build();
+        return response;
+    }
+
+    @GetMapping("/setTickets")
+    public Response setTickets(@RequestParam String token) {
+        parserService.setToken(token);
+        Response response = new Response();
+        response = Response.builder()
+                .setCode(200)
+                .setStatus("OK")
+                .setDescription("method in develop")
+                .setResponseBody(new StringModel("success"))
+                .build();
+        return response;
+    }
+
 }

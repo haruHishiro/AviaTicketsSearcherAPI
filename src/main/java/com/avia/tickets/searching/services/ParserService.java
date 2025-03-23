@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class ParserService {
     private String token = "";
 
+
     public String getToken() {
         return token;
     }
