@@ -7,12 +7,11 @@
 package com.avia.tickets.searching.controllers;
 
 
-import com.avia.tickets.searching.models.BaseModel;
-import com.avia.tickets.searching.models.Offer;
-import com.avia.tickets.searching.models.OffersList;
+import com.avia.tickets.searching.models.Request;
+import com.avia.tickets.searching.models.RequestsList;
 import com.avia.tickets.searching.models.ValueBooleanModel;
 import com.avia.tickets.searching.response.Response;
-import com.avia.tickets.searching.services.OfferService;
+import com.avia.tickets.searching.services.RequestsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,25 +23,25 @@ import java.sql.SQLException;
 
 
 @RestController
-@RequestMapping("/api/v1/offers")
-public class OffersController {
+@RequestMapping("/api/v1/requests")
+public class RequestsController {
 
-    private final OfferService offerService;
+    private final RequestsService requestsService;
 
     @Autowired
-    public OffersController(OfferService offerService){
-        this.offerService = offerService;
+    public RequestsController(RequestsService requestsService){
+        this.requestsService = requestsService;
     }
 
-    @GetMapping("/getUserOffers")
-    public Response getUserOffers(@RequestParam long userId, @RequestParam boolean isInternalId){
+    @GetMapping("/getUserRequests")
+    public Response getUserRequests(@RequestParam long userId, @RequestParam boolean isInternalId){
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new OffersList(offerService.getUserOffers(userId, isInternalId)))
+                    .setResponseBody(new RequestsList(requestsService.getUserRequests(userId, isInternalId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -50,15 +49,15 @@ public class OffersController {
         return response;
     }
 
-    @GetMapping("/getUserActiveOffers")
-    public Response getUserActiveOffers(@RequestParam long userId, @RequestParam boolean isInternalId){
+    @GetMapping("/getUserActiveRequests")
+    public Response getUserActiveRequests(@RequestParam long userId, @RequestParam boolean isInternalId){
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new OffersList(offerService.getUserActiveOffers(userId, isInternalId)))
+                    .setResponseBody(new RequestsList(requestsService.getUserActiveRequests(userId, isInternalId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -66,15 +65,15 @@ public class OffersController {
         return response;
     }
 
-    @GetMapping("/getUserNonActiveOffers")
-    public Response getUserNonActiveOffers(@RequestParam long userId, @RequestParam boolean isInternalId){
+    @GetMapping("/getUserNonActiveRequests")
+    public Response getUserNonActiveRequests(@RequestParam long userId, @RequestParam boolean isInternalId){
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new OffersList(offerService.getUserNonActiveOffers(userId, isInternalId)))
+                    .setResponseBody(new RequestsList(requestsService.getUserNonActiveRequests(userId, isInternalId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -82,13 +81,13 @@ public class OffersController {
         return response;
     }
 
-    @GetMapping("/addOffer")
-    public Response addOffer(@RequestParam long userId, @RequestParam boolean isInternalId, @RequestParam String departure,
-                             @RequestParam String destination, @RequestParam Date startDate, @RequestParam Date endDate,
-                             @RequestParam boolean withLuggage, @RequestParam int ticketMaxCost, @RequestParam short changesCount){
+    @GetMapping("/addRequest")
+    public Response addRequest(@RequestParam long userId, @RequestParam boolean isInternalId, @RequestParam String departure,
+                               @RequestParam String destination, @RequestParam Date startDate, @RequestParam Date endDate,
+                               @RequestParam boolean withLuggage, @RequestParam int ticketMaxCost, @RequestParam short changesCount){
         Response response = new Response();
         try {
-            Offer offer = Offer.builder()
+            Request request = Request.builder()
                     .setDeparturePointName(departure)
                     .setDestinationPointName(destination)
                     .setStartDate(startDate)
@@ -102,7 +101,7 @@ public class OffersController {
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(offerService.addOffer(userId, isInternalId, offer)) {
+                    .setResponseBody(new ValueBooleanModel(requestsService.addRequest(userId, isInternalId, request)) {
                     })
                     .build();
         } catch (SQLException e) {
@@ -111,15 +110,15 @@ public class OffersController {
         return response;
     }
 
-    @GetMapping("/disableOffer")
-    public Response disableOffer(@RequestParam long offerId){
+    @GetMapping("/disableRequest")
+    public Response disableRequest(@RequestParam long offerId){
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(offerService.disableOffer(offerId)))
+                    .setResponseBody(new ValueBooleanModel(requestsService.disableRequest(offerId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -127,15 +126,15 @@ public class OffersController {
         return response;
     }
 
-    @GetMapping("/enableOffer")
-    public Response enableOffer(@RequestParam long offerId){
+    @GetMapping("/enableRequest")
+    public Response enableRequest(@RequestParam long offerId){
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(offerService.enableOffer(offerId)))
+                    .setResponseBody(new ValueBooleanModel(requestsService.enableRequest(offerId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);
@@ -143,15 +142,15 @@ public class OffersController {
         return response;
     }
 
-    @GetMapping("/isActiveOffer")
-    public Response isActiveOffer(@RequestParam long offerId){
+    @GetMapping("/isActiveRequest")
+    public Response isActiveRequest(@RequestParam long offerId){
         Response response = new Response();
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
                     .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(offerService.isActiveOffer(offerId)))
+                    .setResponseBody(new ValueBooleanModel(requestsService.isActiveRequest(offerId)))
                     .build();
         } catch (SQLException e) {
             System.out.println(e);

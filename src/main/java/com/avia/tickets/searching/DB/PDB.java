@@ -6,7 +6,7 @@
 
 package com.avia.tickets.searching.DB;
 
-import com.avia.tickets.searching.models.Offer;
+import com.avia.tickets.searching.models.Request;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class PDB {
      * +==========+
      * |  offers  | <-- Table Name
      * +==========+
-     * |    id    | <-- Offer identifier
+     * |    id    | <-- Request identifier
      * +----------+
      * |  user id | <-- Owner id (user internal id)
      * +----------+
@@ -188,7 +188,6 @@ public class PDB {
     public long getInternalIdViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should access the database and get the internal id via the telegram identifier
         Connection connection = connect();
-        //String GET_INTERNAL_ID = "SELECT id FROM users WHERE telegramId = ?";
         PreparedStatement get_internal_id = connection.prepareStatement(GET_INTERNAL_ID);
         get_internal_id.setLong(1, telegramId);
         ResultSet rs = get_internal_id.executeQuery();
@@ -198,7 +197,6 @@ public class PDB {
     public long getTelegramIdViaInternalId(long internalId) throws SQLException {
         //TODO the method should access the database and get the telegram id via the internal identifier
         Connection connection = connect();
-        //String GET_TELEGRAM_ID = "SELECT telegramId FROM users WHERE id = ?";
         PreparedStatement get_telegram_id = connection.prepareStatement(GET_TELEGRAM_ID);
         get_telegram_id.setLong(1, internalId);
         ResultSet rs = get_telegram_id.executeQuery();
@@ -212,64 +210,64 @@ public class PDB {
 
     /*
      * =====================================================================================
-     *                               Offer service section START
+     *                               Request service section START
      * =====================================================================================
      */
 
-    public ArrayList<Offer> getUserOffersViaTelegramId(long telegramId) throws SQLException {
+    public ArrayList<Request> getUserRequestsViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return list of all offers of user with the passed telegram identifier
 
-        return new ArrayList<Offer>();
+        return new ArrayList<Request>();
     }
 
-    public ArrayList<Offer> getUserOffersViaInternalId(long internalId) throws SQLException {
+    public ArrayList<Request> getUserRequestsViaInternalId(long internalId) throws SQLException {
         //TODO the method should return list of all offers of user with the passed internal identifier
-        return new ArrayList<Offer>();
+        return new ArrayList<Request>();
     }
 
-    public ArrayList<Offer> getUserActiveOffersViaTelegramId(long telegramId) throws SQLException {
+    public ArrayList<Request> getUserActiveRequestsViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return list of active offers of user with the passed telegram identifier
-        return new ArrayList<Offer>();
+        return new ArrayList<Request>();
     }
 
-    public ArrayList<Offer> getUserActiveOffersViaInternalId(long internalId) throws SQLException {
+    public ArrayList<Request> getUserActiveRequestsViaInternalId(long internalId) throws SQLException {
         //TODO the method should return list of active offers of user with the passed internal identifier
-        return new ArrayList<Offer>();
+        return new ArrayList<Request>();
     }
 
-    public ArrayList<Offer> getUserNonActiveOffersViaTelegramId(long telegramId) throws SQLException {
+    public ArrayList<Request> getUserNonActiveRequestsViaTelegramId(long telegramId) throws SQLException {
         //TODO the method should return list of non active offers of user with the passed telegram identifier
-        return new ArrayList<Offer>();
+        return new ArrayList<Request>();
     }
 
-    public ArrayList<Offer> getUserNonActiveOffersViaInternalId(long internalId) throws SQLException {
+    public ArrayList<Request> getUserNonActiveRequestsViaInternalId(long internalId) throws SQLException {
         //TODO the method should return list of non active offers of user with the passed internal identifier
-        return new ArrayList<Offer>();
+        return new ArrayList<Request>();
     }
 
-    public boolean addOffer(long internalId, Offer offerFields) throws SQLException {
+    public boolean addRequest(long internalId, Request requestFields) throws SQLException {
         //TODO the method should create a new offer for user with passed internal identifier if offer with the passed fields for this user not exist
         return false;
     }
 
-    public boolean disableOffer(long offerId) throws SQLException {
+    public boolean disableRequests(long offerId) throws SQLException {
         //TODO the method should set field isActive to false of offer with the passed identifier
         return false;
     }
 
-    public boolean enableOffer(long offerId) throws SQLException {
+    public boolean enableRequests(long offerId) throws SQLException {
         //TODO the method should set field isActive to true of offer with the passed identifier
         return false;
     }
 
-    public boolean isActiveOffer(long offerId) throws SQLException {
+    public boolean isActiveRequests(long offerId) throws SQLException {
         //TODO the method should return the state of the "isActive" field from table "offers" of offer with the passed identifier
         return false;
     }
 
     /*
      * =====================================================================================
-     *                               Offer service section END
+     *                               Request service section END
      * =====================================================================================
      */
 
