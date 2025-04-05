@@ -61,10 +61,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID)) {
             preparedStatement.setLong(1, telegramId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getBoolean("is_active");
+            if (resultSet.next()) {
+                return resultSet.getBoolean("is_active");
+            } else {
+                return Boolean.parseBoolean(null);
+            }
         }
     }
 
@@ -72,10 +74,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID)) {
             preparedStatement.setLong(1, internalId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getBoolean("is_active");
+            if (resultSet.next()) {
+                return resultSet.getBoolean("is_active");
+            } else {
+                return Boolean.parseBoolean(null);
+            }
         }
     }
 
@@ -83,10 +87,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(DISABLE_USER_VIA_INTERNAL_ID)) {
             preparedStatement.setLong(1, telegramId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getBoolean("is_active");
+            if (resultSet.next()) {
+                return resultSet.getBoolean("is_active");
+            } else {
+                return Boolean.parseBoolean(null);
+            }
         }
     }
 
@@ -94,10 +100,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(DISABLE_USER_VIA_INTERNAL_ID)) {
             preparedStatement.setLong(1, internalId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getBoolean("is_active");
+            if (resultSet.next()) {
+                return resultSet.getBoolean("is_active");
+            } else {
+                return Boolean.parseBoolean(null);
+            }
         }
     }
 
@@ -105,10 +113,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(ENABLE_USER_VIA_INTERNAL_ID)) {
             preparedStatement.setLong(1, telegramId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getBoolean("is_active");
+            if (resultSet.next()) {
+                return resultSet.getBoolean("is_active");
+            } else {
+                return Boolean.parseBoolean(null);
+            }
         }
     }
 
@@ -116,10 +126,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(ENABLE_USER_VIA_INTERNAL_ID)) {
             preparedStatement.setLong(1, internalId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getBoolean("is_active");
+            if (resultSet.next()) {
+                return resultSet.getBoolean("is_active");
+            } else {
+                return Boolean.parseBoolean(null);
+            }
         }
     }
 
@@ -127,7 +139,6 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER)) {
             preparedStatement.setLong(1, telegramId);
-
             preparedStatement.executeUpdate();
         }
     }
@@ -136,9 +147,7 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(CHECK_USER_IN_DB)) {
             preparedStatement.setLong(1, telegramId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
             return resultSet.next();
         }
     }
@@ -158,10 +167,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(GET_INTERNAL_ID)) {
             preparedStatement.setLong(1, telegramId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getLong("id");
+            if (resultSet.next()) {
+                return resultSet.getLong("id");
+            } else {
+                return Long.parseLong(null);
+            }
         }
     }
 
@@ -169,10 +180,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(GET_INTERNAL_ID)) {
             preparedStatement.setLong(1, internalId);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getLong("id");
+            if (resultSet.next()) {
+                return resultSet.getLong("id");
+            } else {
+                return Long.parseLong(null);
+            }
         }
     }
     /*
@@ -191,10 +204,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(GET_CITY_IATA_CODE_VIA_ID)) {
             preparedStatement.setLong(1, id);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getString("iata_code");
+            if (resultSet.next()) {
+                return resultSet.getString("iata_code");
+            } else {
+                return null;
+            }
         }
     }
 
@@ -202,10 +217,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(GET_COUNTRY_IATA_CODE_VIA_ID)) {
             preparedStatement.setLong(1, id);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getString("iata_code");
+            if(resultSet.next()) {
+                return resultSet.getString("iata_code");
+            } else {
+                return null;
+            }
         }
     }
 
@@ -213,10 +230,12 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(GET_COUNTRY_IATA_CODE_VIA_ID)) {
             preparedStatement.setString(1, countryName);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getLong("id");
+            if (resultSet.next()) {
+                return resultSet.getLong("id");
+            } else {
+                return Long.parseLong(null);
+            }
         }
     }
 
@@ -224,11 +243,13 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(GET_IATA_ID_FOR_CITY_VIA_CITY_NAME)) {
             preparedStatement.setString(1, city);
-            preparedStatement.setString(2, countryCode);;
-
+            preparedStatement.setString(2, countryCode);
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.getLong("id");
+            if (resultSet.next()) {
+                return resultSet.getLong("id");
+            } else {
+                return Long.parseLong(null);
+            }
         }
     }
 
@@ -272,13 +293,17 @@ public class PDB {
             preparedStatement.setLong(1, internalId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            System.out.println("here1");
             ArrayList<Request> requests = new ArrayList<>();
             Request request;
             while (resultSet.next()) {
-                String departurePointCityIATA = getCityIATACodeViaId(resultSet.getLong("departure_point_id"));
+                long dept_id = resultSet.getLong("departure_point_id");
+                System.out.println(dept_id);
+                String departurePointCityIATA = getCityIATACodeViaId(dept_id);
                 String destinationPointCityIATA = getCityIATACodeViaId(resultSet.getLong("destination_point_id"));
                 String departurePointCountryIATA = getCountryIATACodeViaId(resultSet.getLong("departure_point_country_id"));
                 String destinationPointCountryIATA = getCountryIATACodeViaId(resultSet.getLong("destination_point_country_id"));
+
                 request = Request.builder()
                         .setRequestId(resultSet.getLong("id"))
                         .setIsActive(resultSet.getBoolean("is_active"))
