@@ -1,15 +1,13 @@
 package com.avia.tickets.searching.models;
 
-import java.util.Date;
-
 public class Request extends BaseModel {
     private long requestId;
     private long userInternalId;
     private boolean isActive;
     private String departurePointCountryName;
     private String destinationPointCountryName;
-    private String departurePointName;
-    private String destinationPointName;
+    private String departurePointCityName;
+    private String destinationPointCityName;
     private java.sql.Date startDate;
     private java.sql.Date endDate;
     private boolean withLuggage;
@@ -50,13 +48,13 @@ public class Request extends BaseModel {
             return this;
         }
 
-        public RequestBuilder setDeparturePointName(String departurePointName) {
-            Request.this.departurePointName = departurePointName;
+        public RequestBuilder setDeparturePointCityName(String departurePointCityName) {
+            Request.this.departurePointCityName = departurePointCityName;
             return this;
         }
 
-        public RequestBuilder setDestinationPointName(String destinationPointName) {
-            Request.this.destinationPointName = destinationPointName;
+        public RequestBuilder setDestinationPointCityName(String destinationPointCityName) {
+            Request.this.destinationPointCityName = destinationPointCityName;
             return this;
         }
 
@@ -115,12 +113,12 @@ public class Request extends BaseModel {
         return destinationPointCountryName;
     }
 
-    public String getDeparturePointName() {
-        return departurePointName;
+    public String getDeparturePointCityName() {
+        return departurePointCityName;
     }
 
-    public String getDestinationPointName() {
-        return destinationPointName;
+    public String getDestinationPointCityName() {
+        return destinationPointCityName;
     }
 
     public java.sql.Date getStartDate() {

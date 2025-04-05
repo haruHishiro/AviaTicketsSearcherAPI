@@ -103,8 +103,8 @@ public class RequestsController {
     }
 
     @GetMapping("/addRequest")
-    public Response addRequest(@RequestParam long userId, @RequestParam boolean isInternalId, @RequestParam String departure,
-                               @RequestParam String destination, @RequestParam Date startDate, @RequestParam Date endDate,
+    public Response addRequest(@RequestParam long userId, @RequestParam boolean isInternalId, @RequestParam String departureCity,
+                               @RequestParam String destinationCity, @RequestParam Date startDate, @RequestParam Date endDate,
                                @RequestParam boolean withLuggage, @RequestParam int ticketMaxCost, @RequestParam short changesCount,
                                @RequestParam String destinationCountry, @RequestParam String departureCountry, @RequestParam boolean isDirect) {
         Response response;
@@ -113,8 +113,8 @@ public class RequestsController {
             request = Request.builder()
                     .setDestinationPointCountryName(destinationCountry)
                     .setDeparturePointCountryName(departureCountry)
-                    .setDeparturePointName(departure)
-                    .setDestinationPointName(destination)
+                    .setDeparturePointCityName(departureCity)
+                    .setDestinationPointCityName(destinationCity)
                     .setStartDate(startDate)
                     .setEndDate(endDate)
                     .setWithLuggage(withLuggage)
@@ -138,7 +138,7 @@ public class RequestsController {
                     .setDescription("error")
                     .build();
             System.out.println("[LOG] [addRequest] [ERROR] [userId] " + userId + " [isInternalId] " + isInternalId +
-                    " [departure] " + departure + " [destination] " + destination + " [startDate] " + startDate +
+                    " [departureCity] " + departureCity + " [destinationCity] " + destinationCity + " [startDate] " + startDate +
                     " [endDate] " + startDate + " [withLuggage] " + withLuggage + " [ticketMaxCost] " + ticketMaxCost +
                     " [changesCount] " + changesCount + " [destinationCountry] " + destinationCountry +
                     " [departureCountry] " + departureCountry + " [isDirect] " + isDirect);
