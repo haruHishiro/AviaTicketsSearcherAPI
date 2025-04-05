@@ -43,20 +43,20 @@ public class RequestsService {
         }
     }
 
-    public boolean addRequest(long userId, boolean isInternalUserId, Request request) throws SQLException {
+    public void addRequest(long userId, boolean isInternalUserId, Request request) throws SQLException {
         if (isInternalUserId) {
-            return pdb.addRequest(userId, request);
+            pdb.addRequest(userId, request);
         } else {
-            return pdb.addRequest(pdb.getInternalIdViaTelegramId(userId), request);
+            pdb.addRequest(pdb.getInternalIdViaTelegramId(userId), request);
         }
     }
 
-    public boolean disableRequest(long offerId) throws SQLException {
-        return pdb.disableRequest(offerId);
+    public void disableRequest(long offerId) throws SQLException {
+        pdb.disableRequest(offerId);
     }
 
-    public boolean enableRequest(long offerId) throws SQLException {
-        return pdb.enableRequest(offerId);
+    public void enableRequest(long offerId) throws SQLException {
+        pdb.enableRequest(offerId);
     }
 
     public boolean isActiveRequest(long offerId) throws SQLException {
