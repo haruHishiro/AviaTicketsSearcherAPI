@@ -30,12 +30,11 @@ public class ParserController {
 
     @GetMapping("/getToken")
     public Response getToken() {
-
-        Response response = new Response();
+        Response response;
         response = Response.builder()
                 .setCode(200)
                 .setStatus("OK")
-                .setDescription("method in develop")
+                .setDescription("success")
                 .setResponseBody(new StringModel(parserService.getToken()))
                 .build();
         return response;
@@ -44,11 +43,11 @@ public class ParserController {
     @GetMapping("/setToken")
     public Response setToken(@RequestParam String token) {
         parserService.setToken(token);
-        Response response = new Response();
+        Response response;
         response = Response.builder()
                 .setCode(200)
                 .setStatus("OK")
-                .setDescription("method in develop")
+                .setDescription("success")
                 .setResponseBody(new StringModel("success"))
                 .build();
         return response;
@@ -62,7 +61,6 @@ public class ParserController {
                 .setCode(200)
                 .setStatus("OK")
                 .setDescription("method in develop")
-
                 .build();
         return response;
     }
