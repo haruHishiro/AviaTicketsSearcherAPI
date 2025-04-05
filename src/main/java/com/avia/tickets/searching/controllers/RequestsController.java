@@ -35,32 +35,46 @@ public class RequestsController {
 
     @GetMapping("/getUserRequests")
     public Response getUserRequests(@RequestParam long userId, @RequestParam boolean isInternalId) {
-        Response response = new Response();
+        Response response;
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
-                    .setDescription("method in develop")
+                    .setDescription("success")
                     .setResponseBody(new RequestsList(requestsService.getUserRequests(userId, isInternalId)))
                     .build();
+            System.out.println("[LOG] [getUserRequests] [SUCCESS]");
         } catch (SQLException e) {
             System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("[LOG] [getUserRequests] [ERROR] [userId] " + userId + " [isInternalId] " + isInternalId);
         }
         return response;
     }
 
     @GetMapping("/getUserActiveRequests")
     public Response getUserActiveRequests(@RequestParam long userId, @RequestParam boolean isInternalId) {
-        Response response = new Response();
+        Response response;
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
-                    .setDescription("method in develop")
+                    .setDescription("success")
                     .setResponseBody(new RequestsList(requestsService.getUserActiveRequests(userId, isInternalId)))
                     .build();
+            System.out.println("[LOG] [getUserActiveRequests] [SUCCESS]");
         } catch (SQLException e) {
             System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("[LOG] [getUserActiveRequests] [ERROR] [userId] " + userId + " [isInternalId] " + isInternalId);
         }
         return response;
     }
@@ -72,11 +86,18 @@ public class RequestsController {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
-                    .setDescription("method in develop")
+                    .setDescription("success")
                     .setResponseBody(new RequestsList(requestsService.getUserNonActiveRequests(userId, isInternalId)))
                     .build();
+            System.out.println("[LOG] [getUserNonActiveRequests] [SUCCESS]");
         } catch (SQLException e) {
             System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("[LOG] [getUserNonActiveRequests] [ERROR] [userId] " + userId + " [isInternalId] " + isInternalId);
         }
         return response;
     }
@@ -86,7 +107,7 @@ public class RequestsController {
                                @RequestParam String destination, @RequestParam Date startDate, @RequestParam Date endDate,
                                @RequestParam boolean withLuggage, @RequestParam int ticketMaxCost, @RequestParam short changesCount,
                                @RequestParam String destinationCountry, @RequestParam String departureCountry, @RequestParam boolean isDirect) {
-        Response response = new Response();
+        Response response;
         try {
             Request request;
             request = Request.builder()
@@ -102,63 +123,94 @@ public class RequestsController {
                     .setIsDirect(isDirect)
                     .build();
 
+            requestsService.addRequest(userId, isInternalId, request);
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
-                    .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(requestsService.addRequest(userId, isInternalId, request)) {
-                    })
+                    .setDescription("success")
                     .build();
+            System.out.println("[LOG] [addRequest] [SUCCESS]");
         } catch (SQLException e) {
             System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("[LOG] [addRequest] [ERROR] [userId] " + userId + " [isInternalId] " + isInternalId +
+                    " [departure] " + departure + " [destination] " + destination + " [startDate] " + startDate +
+                    " [endDate] " + startDate + " [withLuggage] " + withLuggage + " [ticketMaxCost] " + ticketMaxCost +
+                    " [changesCount] " + changesCount + " [destinationCountry] " + destinationCountry +
+                    " [departureCountry] " + departureCountry + " [isDirect] " + isDirect);
         }
         return response;
     }
 
     @GetMapping("/disableRequest")
     public Response disableRequest(@RequestParam long requestId) {
-        Response response = new Response();
+        Response response;
         try {
+            requestsService.disableRequest(requestId);
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
-                    .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(requestsService.disableRequest(requestId)))
+                    .setDescription("success")
                     .build();
+            System.out.println("[LOG] [disableRequest] [SUCCESS]");
         } catch (SQLException e) {
             System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("[LOG] [disableRequest] [ERROR] [requestId] " + requestId);
         }
         return response;
     }
 
     @GetMapping("/enableRequest")
     public Response enableRequest(@RequestParam long requestId) {
-        Response response = new Response();
+        Response response;
         try {
+            requestsService.enableRequest(requestId);
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
-                    .setDescription("method in develop")
-                    .setResponseBody(new ValueBooleanModel(requestsService.enableRequest(requestId)))
+                    .setDescription("success")
                     .build();
+            System.out.println("[LOG] [enableRequest] [SUCCESS]");
         } catch (SQLException e) {
             System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("[LOG] [enableRequest] [ERROR] [requestId] " + requestId);
         }
         return response;
     }
 
     @GetMapping("/isActiveRequest")
     public Response isActiveRequest(@RequestParam long offerId) {
-        Response response = new Response();
+        Response response;
         try {
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
-                    .setDescription("method in develop")
+                    .setDescription("success")
                     .setResponseBody(new ValueBooleanModel(requestsService.isActiveRequest(offerId)))
                     .build();
+            System.out.println("[LOG] [isActiveRequest] [SUCCESS]");
         } catch (SQLException e) {
             System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("[LOG] [isActiveRequest] [ERROR] [offerId] " + offerId);
         }
         return response;
     }
