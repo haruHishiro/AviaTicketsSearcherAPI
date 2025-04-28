@@ -6,6 +6,8 @@
 
 package com.avia.tickets.searching.DB;
 
+import com.avia.tickets.searching.models.City;
+import com.avia.tickets.searching.models.Country;
 import com.avia.tickets.searching.models.Request;
 
 import java.sql.SQLException;
@@ -40,17 +42,19 @@ public class PDB {
     private static final String GET_USER_ALL_REQUESTS = "SELECT * FROM requests where user_internal_id = ?";
     private static final String INSERT_REQUEST = "INSERT INTO requests " +
             "(is_active, user_internal_id , departure_point_country_id, destination_point_country_id, departure_point_id, destination_point_id, " +
-            "start_date, end_date, is_need_luggage, changes_count, ticket_max_cost, is_direct)" +
+            "start_date, end_date, is_need_luggage, changes_count, ticket_max_cost, is_direct) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String ENABLE_REQUEST_VIA_ID = "UPDATE requests SET is_active = true WHERE telegramId = ?";
-    private static final String DISABLE_REQUEST_VIA_ID = "UPDATE requests SET is_active = false WHERE telegramId = ?";
+    private static final String DISABLE_REQUEST_VIA_ID = "UPDATE requests SET is_active = false WHERE id = ?";
     private static final String IS_ACTIVE_REQUEST_VIA_ID = "SELECT is_active FROM requests WHERE id = ?";
     private static final String GET_COUNTRY_IATA_CODE_VIA_ID = "SELECT iata_code FROM iata_codes_country WHERE id = ?";
     private static final String GET_CITY_IATA_CODE_VIA_ID = "SELECT iata_code FROM iata_codes_city WHERE id = ?";
     private static final String GET_IATA_ID_FOR_COUNTRY_VIA_COUNTRY_NAME = "SELECT id FROM iata_codes_country WHERE country_name = ?";
     private static final String GET_IATA_ID_FOR_CITY_VIA_CITY_NAME = "SELECT id FROM iata_codes_city WHERE city_name = ? AND country_code = ?";
     private static final String ADD_CITY_IATA_CODE = "INSERT INTO iata_codes_city (city_name, iata_code, country_code) VALUES (?, ?, ?)";
-    private static final String ADD_COUNTRY_IATA_CODE = "INSERT INTO iata_codes_city (country_name, iata_code) VALUES (?, ?)";
+    private static final String ADD_COUNTRY_IATA_CODE = "INSERT INTO iata_codes_country (country_name, iata_code) VALUES (?, ?)";
+    private static final String GET_CITIES = "SELECT * FROM iata_codes_city";
+    private static final String GET_COUNTIES = "SELECT * FROM iata_codes_country";
 
     /*
      * =====================================================================================
@@ -210,7 +214,7 @@ public class PDB {
 
     public long getTelegramIdViaInternalId(long internalId) throws SQLException {
         try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_INTERNAL_ID)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_TELEGRAM_ID)) {
             preparedStatement.setLong(1, internalId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -300,6 +304,7 @@ public class PDB {
                 String destinationPointCountryIATA = getCountryIATACodeViaId(resultSet.getLong("destination_point_country_id"));
                 request = Request.builder()
                         .setRequestId(resultSet.getLong("id"))
+                        .setUserInternalId(internalId)
                         .setIsActive(resultSet.getBoolean("is_active"))
                         .setDeparturePointCountryName(departurePointCountryIATA)
                         .setDestinationPointCountryName(destinationPointCountryIATA)
@@ -337,6 +342,7 @@ public class PDB {
 
                 request = Request.builder()
                         .setRequestId(resultSet.getLong("id"))
+                        .setUserInternalId(internalId)
                         .setIsActive(resultSet.getBoolean("is_active"))
                         .setDeparturePointCountryName(departurePointCountryIATA)
                         .setDestinationPointCountryName(destinationPointCountryIATA)
@@ -371,6 +377,7 @@ public class PDB {
                 String destinationPointCountryIATA = getCountryIATACodeViaId(resultSet.getLong("destination_point_country_id"));
                 request = Request.builder()
                         .setRequestId(resultSet.getLong("id"))
+                        .setUserInternalId(internalId)
                         .setIsActive(resultSet.getBoolean("is_active"))
                         .setDeparturePointCountryName(departurePointCountryIATA)
                         .setDestinationPointCountryName(destinationPointCountryIATA)
@@ -404,6 +411,7 @@ public class PDB {
                 String destinationPointCountryIATA = getCountryIATACodeViaId(resultSet.getLong("destination_point_country_id"));
                 request = Request.builder()
                         .setRequestId(resultSet.getLong("id"))
+                        .setUserInternalId(resultSet.getLong("user_internal_id"))
                         .setIsActive(resultSet.getBoolean("is_active"))
                         .setDeparturePointCountryName(departurePointCountryIATA)
                         .setDestinationPointCountryName(destinationPointCountryIATA)
@@ -437,6 +445,7 @@ public class PDB {
                 String destinationPointCountryIATA = getCountryIATACodeViaId(resultSet.getLong("destination_point_country_id"));
                 request = Request.builder()
                         .setRequestId(resultSet.getLong("id"))
+                        .setUserInternalId(resultSet.getLong("user_internal_id"))
                         .setIsActive(resultSet.getBoolean("is_active"))
                         .setDeparturePointCountryName(departurePointCountryIATA)
                         .setDestinationPointCountryName(destinationPointCountryIATA)
@@ -470,6 +479,7 @@ public class PDB {
                 String destinationPointCountryIATA = getCountryIATACodeViaId(resultSet.getLong("destination_point_country_id"));
                 request = Request.builder()
                         .setRequestId(resultSet.getLong("id"))
+                        .setUserInternalId(resultSet.getLong("user_internal_id"))
                         .setIsActive(resultSet.getBoolean("is_active"))
                         .setDeparturePointCountryName(departurePointCountryIATA)
                         .setDestinationPointCountryName(destinationPointCountryIATA)
@@ -494,11 +504,17 @@ public class PDB {
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_REQUEST)) {
             long departurePointCountryIATA = getIATAIdForCountryViaCountryName(requestFields.getDeparturePointCountryName());
             long destinationPointCountryIATA = getIATAIdForCountryViaCountryName(requestFields.getDestinationPointCountryName());
-            long departurePointCityIATA = getIATAIdForCityViaCityName(requestFields.getDeparturePointCityName(), getCityIATACodeViaId(destinationPointCountryIATA));
-            long destinationPointCityIATA = getIATAIdForCityViaCityName(requestFields.getDestinationPointCityName(), getCityIATACodeViaId(destinationPointCountryIATA));
+            long departurePointCityIATA = getIATAIdForCityViaCityName(requestFields.getDeparturePointCityName(), getCountryIATACodeViaId(departurePointCountryIATA));
+            long destinationPointCityIATA = getIATAIdForCityViaCityName(requestFields.getDestinationPointCityName(), getCountryIATACodeViaId(destinationPointCountryIATA));
 
-            preparedStatement.setBoolean(1, requestFields.isActive());
-            preparedStatement.setLong(2, requestFields.getUserInternalId());
+            /*
+            private static final String INSERT_REQUEST = "INSERT INTO requests " +
+            "(is_active, user_internal_id , departure_point_country_id, destination_point_country_id, departure_point_id, destination_point_id, " +
+            "start_date, end_date, is_need_luggage, changes_count, ticket_max_cost, is_direct) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            */
+            preparedStatement.setBoolean(1, true); // active
+            preparedStatement.setLong(2, internalId);
             preparedStatement.setLong(3, departurePointCountryIATA);
             preparedStatement.setLong(4, destinationPointCountryIATA);
             preparedStatement.setLong(5, departurePointCityIATA);
@@ -507,9 +523,10 @@ public class PDB {
             preparedStatement.setDate(8, requestFields.getEndDate());
             preparedStatement.setBoolean(9, requestFields.isWithLuggage());
             preparedStatement.setShort(10, requestFields.getChangesCount());
-            preparedStatement.setInt(11, requestFields.getChangesCount());
+            preparedStatement.setInt(11, requestFields.getTicketMaxCost());
             preparedStatement.setBoolean(12, requestFields.isDirect());
-            preparedStatement.executeQuery();
+            System.out.println(preparedStatement);
+            preparedStatement.executeUpdate();
         }
     }
 
@@ -517,7 +534,7 @@ public class PDB {
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(DISABLE_REQUEST_VIA_ID)) {
             preparedStatement.setLong(1, requestId);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             return true;
         }
     }
@@ -538,6 +555,39 @@ public class PDB {
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         }
+    }
+
+    public ArrayList<City> getCities() throws SQLException {
+        ArrayList<City> cities = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_CITIES)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            City city;
+            while (resultSet.next()) {
+                city = new City(resultSet.getString("city_name"),
+                        resultSet.getString("iata_code"),
+                        resultSet.getString("country_code"));
+                cities.add(city);
+            }
+        }
+        return cities;
+    }
+
+    public ArrayList<Country> getCountries() throws SQLException{
+        ArrayList<Country> countries = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_COUNTIES)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            Country country;
+            while (resultSet.next()) {
+                country = new Country(resultSet.getString("country_name"),
+                        resultSet.getString("iata_code"));
+                countries.add(country);
+            }
+        }
+        return countries;
     }
 
     /*
