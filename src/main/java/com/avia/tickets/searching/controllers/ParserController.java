@@ -8,14 +8,23 @@ package com.avia.tickets.searching.controllers;
 
 
 import com.avia.tickets.searching.models.StringModel;
+import com.avia.tickets.searching.models.Ticket;
+import com.avia.tickets.searching.models.TicketsList;
 import com.avia.tickets.searching.models.ValueBooleanModel;
 import com.avia.tickets.searching.response.Response;
 import com.avia.tickets.searching.services.ParserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 
 
 @RestController
@@ -29,7 +38,7 @@ public class ParserController {
     }
 
     @GetMapping("/getToken")
-    public Response getToken() {
+    public Response getToken(HttpServletRequest httpServletRequest) {
         Response response;
         response = Response.builder()
                 .setCode(200)
@@ -41,7 +50,7 @@ public class ParserController {
     }
 
     @GetMapping("/setToken")
-    public Response setToken(@RequestParam String token) {
+    public Response setToken(@RequestParam String token, HttpServletRequest httpServletRequest) {
         parserService.setToken(token);
         Response response;
         response = Response.builder()
@@ -54,26 +63,64 @@ public class ParserController {
     }
 
     @GetMapping("/getTickets")
-    public Response getTickets() {
-        //TODO
-        Response response = new Response();
+    public Response getTickets(HttpServletRequest httpServletRequest) {
+        Response response;
         response = Response.builder()
                 .setCode(200)
                 .setStatus("OK")
-                .setDescription("method in develop")
+                .setDescription("success")
+                .setResponseBody(new TicketsList(parserService.getTickets()))
                 .build();
+        System.out.println("[IP] " + httpServletRequest.getRemoteAddr() + " [LOG] [getTickets] [SUCCESS]");
         return response;
     }
 
     @GetMapping("/addTicket")
-    public Response addTicket() {
-        //TODO
-        Response response = new Response();
-        response = Response.builder()
+    public Response addTicket(
+            @RequestParam String flight_number,
+            @RequestParam String link,
+            @RequestParam String origin_airport,
+            @RequestParam String destination_airport,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departure_at,
+            @RequestParam String airline,
+            @RequestParam String destination,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime return_at,
+            @RequestParam String origin,
+            @RequestParam int price,
+            @RequestParam int return_transfers,
+            @RequestParam int transfers,
+            @RequestParam long forRequest,
+            HttpServletRequest httpServletRequest) {
+
+        OffsetDateTime departureOffset = departure_at.atOffset(ZoneOffset.UTC); // или используйте нужный вам часовой пояс
+        OffsetDateTime returnOffset = return_at.atOffset(ZoneOffset.UTC); // или используйте нужный вам часовой пояс
+
+        // Создание объекта Ticket
+        Ticket ticket = new Ticket(
+                flight_number,
+                link,
+                origin_airport,
+                destination_airport,
+                departureOffset,
+                airline,
+                destination,
+                returnOffset,
+                origin,
+                price,
+                return_transfers, // предполагается, что это количество пересадок на обратном пути
+                transfers, // количество пересадок на прямом рейсе
+                forRequest
+        );
+
+        parserService.addTicket(ticket);
+
+        Response response = Response.builder()
                 .setCode(200)
                 .setStatus("OK")
-                .setDescription("method in develop")
+                .setDescription("success")
                 .build();
+
+        System.out.println("[IP] " + httpServletRequest.getRemoteAddr() + " [LOG] [addTicket] [SUCCESS]");
         return response;
     }
 
