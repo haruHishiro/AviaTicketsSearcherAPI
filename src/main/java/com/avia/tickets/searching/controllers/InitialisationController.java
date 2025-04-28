@@ -3,6 +3,7 @@ package com.avia.tickets.searching.controllers;
 import com.avia.tickets.searching.models.StringModel;
 import com.avia.tickets.searching.response.Response;
 import com.avia.tickets.searching.services.InitialisationService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,8 @@ public class InitialisationController {
     }
 
     @GetMapping("/addCityIATACode")
-    public Response addCityIATACode(@RequestParam String cityName, @RequestParam String iataCode, @RequestParam String countryCode) {
+    public Response addCityIATACode(@RequestParam String cityName, @RequestParam String iataCode,
+                                    @RequestParam String countryCode, HttpServletRequest httpServletRequest) {
         Response response;
         try {
             initialisationService.addCityIATACode(cityName, iataCode, countryCode);
@@ -45,7 +47,8 @@ public class InitialisationController {
     }
 
     @GetMapping("/addCountryIATACode")
-    public Response addCountryIATACode(@RequestParam String countryName, @RequestParam String iataCode) {
+    public Response addCountryIATACode(@RequestParam String countryName, @RequestParam String iataCode,
+                                       HttpServletRequest httpServletRequest) {
         Response response;
         try {
             initialisationService.addCountryIATACode(countryName, iataCode);

@@ -8,6 +8,8 @@ package com.avia.tickets.searching.services;
 
 
 import com.avia.tickets.searching.DB.PDB;
+import com.avia.tickets.searching.models.City;
+import com.avia.tickets.searching.models.Country;
 import com.avia.tickets.searching.models.Request;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,14 @@ import java.util.ArrayList;
 @Service
 public class RequestsService {
     PDB pdb = new PDB();
+
+    public ArrayList<City> getCities() throws SQLException {
+        return pdb.getCities();
+    }
+
+    public ArrayList<Country> getCountries() throws SQLException {
+        return pdb.getCountries();
+    }
 
     public ArrayList<Request> getUserRequests(long userId, boolean isInternalId) throws SQLException {
         if(isInternalId) {
@@ -47,6 +57,7 @@ public class RequestsService {
         if (isInternalUserId) {
             pdb.addRequest(userId, request);
         } else {
+            //System.out.println(pdb.getInternalIdViaTelegramId(userId));
             pdb.addRequest(pdb.getInternalIdViaTelegramId(userId), request);
         }
     }
@@ -61,5 +72,14 @@ public class RequestsService {
 
     public boolean isActiveRequest(long offerId) throws SQLException {
         return pdb.isActiveRequest(offerId);
+    }
+
+
+    public ArrayList<Request> getAllRequests() throws SQLException {
+        return pdb.getRequests();
+    }
+
+    public ArrayList<Request> getActiveRequests() throws SQLException {
+        return pdb.getActiveRequests();
     }
 }
