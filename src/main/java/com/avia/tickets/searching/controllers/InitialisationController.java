@@ -1,6 +1,9 @@
+/*
+ * Controller for initialization database with iata codes for cities and countries
+ * Developers: k.d.panov@gmail.com
+ */
 package com.avia.tickets.searching.controllers;
 
-import com.avia.tickets.searching.models.StringModel;
 import com.avia.tickets.searching.response.Response;
 import com.avia.tickets.searching.services.InitialisationService;
 import jakarta.servlet.http.HttpServletRequest;

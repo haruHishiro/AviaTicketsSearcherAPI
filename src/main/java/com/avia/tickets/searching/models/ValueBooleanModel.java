@@ -1,7 +1,6 @@
 /*
- * Model for processing true/false responses
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * Model for processing true/false fields
+ * Developers: k.d.panov@gmail.com
  */
 
 package com.avia.tickets.searching.models;

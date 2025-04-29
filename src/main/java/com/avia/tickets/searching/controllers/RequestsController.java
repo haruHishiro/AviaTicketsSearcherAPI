@@ -1,7 +1,6 @@
 /*
  * Controller for processing of logic of work with user requests
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * Developers: k.d.panov@gmail.com
  */
 
 package com.avia.tickets.searching.controllers;
@@ -76,7 +75,7 @@ public class RequestsController {
                     .setStatus("OK")
                     .setDescription("error")
                     .build();
-            System.out.println("\u001B[31m" + "[IP] " + httpServletRequest.getRemoteAddr() + " [LOG] [getUserRequests] [ERROR]"+ "\u001B[0m");
+            System.out.println("\u001B[31m" + "[IP] " + httpServletRequest.getRemoteAddr() + " [LOG] [getUserRequests] [ERROR]" + "\u001B[0m");
         }
         return response;
     }
@@ -279,7 +278,7 @@ public class RequestsController {
     public Response getCities(HttpServletRequest httpServletRequest) {
         Response response;
         try {
-            ArrayList<City> cities =  requestsService.getCities();
+            ArrayList<City> cities = requestsService.getCities();
             response = Response.builder()
                     .setCode(200)
                     .setStatus("OK")
@@ -320,6 +319,33 @@ public class RequestsController {
                     .setDescription("error")
                     .build();
             System.out.println("\u001B[31m" + "[IP] " + httpServletRequest.getRemoteAddr() + " [LOG] [getCountries] [ERROR]" + "\u001B[0m");
+        }
+        return response;
+    }
+
+    @GetMapping("/getOwnerTelegramIdViaRequestId")
+    public Response getOwnerTelegramIdViaRequestId(@RequestParam long requestId,
+                                                   HttpServletRequest httpServletRequest) {
+        Response response;
+        try {
+            long userId = requestsService.getOwnerTelegramIdViaRequestId(requestId);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("success")
+                    .setResponseBody(new ValueLongModel(userId))
+                    .build();
+            System.out.println("[IP] " + httpServletRequest.getRemoteAddr() +
+                    " [LOG] [getOwnerTelegramIdViaRequestId] [SUCCESS] [requestId] " + requestId + " [userId] " + userId);
+        } catch (SQLException e) {
+            System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("\u001B[31m" + "[IP] " + httpServletRequest.getRemoteAddr() +
+                    " [LOG] [getOwnerTelegramIdViaRequestId] [ERROR] [requestId] " + requestId + "\u001B[0m");
         }
         return response;
     }

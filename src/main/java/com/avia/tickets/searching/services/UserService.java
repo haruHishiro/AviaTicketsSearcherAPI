@@ -1,7 +1,6 @@
 /*
  * Service for processing user information
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * Developers: k.d.panov@gmail.com
  */
 
 package com.avia.tickets.searching.services;

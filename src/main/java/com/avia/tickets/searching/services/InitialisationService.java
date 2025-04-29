@@ -1,3 +1,7 @@
+/*
+ * Service for initialisation database with iata codes
+ * Developers: k.d.panov@gmail.com
+ */
 package com.avia.tickets.searching.services;
 
 import com.avia.tickets.searching.DB.PDB;

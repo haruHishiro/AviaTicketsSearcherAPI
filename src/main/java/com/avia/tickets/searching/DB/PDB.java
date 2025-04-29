@@ -1,7 +1,6 @@
 /*
  * Class for work with PostgreSQL database
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * Developers: k.d.panov@gmail.com
  */
 
 package com.avia.tickets.searching.DB;
@@ -37,6 +36,7 @@ public class PDB {
     private static final String GET_ACTIVE_REQUESTS = "SELECT * FROM requests WHERE is_active = true";
     private static final String GET_NON_ACTIVE_REQUESTS = "SELECT * FROM requests WHERE is_active = false";
     private static final String GET_ALL_REQUESTS = "SELECT * FROM requests";
+    private static final String GET_OWNER_TELEGRAM_ID_VIA_REQUEST_ID = "SELECT * FROM requests WHERE id = ?";
     private static final String GET_USER_ACTIVE_REQUESTS = "SELECT * FROM requests WHERE is_active = true and user_internal_id = ?";
     private static final String GET_USER_NON_ACTIVE_REQUESTS = "SELECT * FROM requests WHERE is_active = false and user_internal_id = ?";
     private static final String GET_USER_ALL_REQUESTS = "SELECT * FROM requests where user_internal_id = ?";
@@ -218,7 +218,7 @@ public class PDB {
             preparedStatement.setLong(1, internalId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getLong("id");
+                return resultSet.getLong("telegram_id");
             } else {
                 return Long.parseLong(null);
             }
@@ -588,6 +588,19 @@ public class PDB {
             }
         }
         return countries;
+    }
+
+    public long getOwnerInternalIdViaRequestId(long requestId) throws SQLException{
+        try (Connection connection = DriverManager.getConnection(url, user, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_OWNER_TELEGRAM_ID_VIA_REQUEST_ID)) {
+            preparedStatement.setLong(1, requestId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getLong("user_internal_id");
+            } else {
+                return Long.parseLong(null);
+            }
+        }
     }
 
     /*

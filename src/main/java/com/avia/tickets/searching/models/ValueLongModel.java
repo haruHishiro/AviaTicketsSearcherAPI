@@ -1,7 +1,6 @@
 /*
- * Model for processing long values in responses
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * Model for processing 64bit fields
+ * Developers: k.d.panov@gmail.com
  */
 
 

@@ -1,7 +1,6 @@
 /*
  * Controller for processing parser queries
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * Developers: k.d.panov@gmail.com
  */
 
 package com.avia.tickets.searching.controllers;
@@ -38,20 +37,23 @@ public class ParserController {
     }
 
     @GetMapping("/getToken")
-    public Response getToken(HttpServletRequest httpServletRequest) {
+    public Response getToken(@RequestParam String site,
+            HttpServletRequest httpServletRequest) {
         Response response;
         response = Response.builder()
                 .setCode(200)
                 .setStatus("OK")
                 .setDescription("success")
-                .setResponseBody(new StringModel(parserService.getToken()))
+                .setResponseBody(new StringModel(parserService.getToken(site)))
                 .build();
+        System.out.println("[IP] " + httpServletRequest.getRemoteAddr() +
+                " [LOG] [setToken] [SUCCESS] [site] " + site);
         return response;
     }
 
     @GetMapping("/setToken")
-    public Response setToken(@RequestParam String token, HttpServletRequest httpServletRequest) {
-        parserService.setToken(token);
+    public Response setToken(@RequestParam String site, @RequestParam String token, HttpServletRequest httpServletRequest) {
+        parserService.setToken(site, token);
         Response response;
         response = Response.builder()
                 .setCode(200)
@@ -59,6 +61,8 @@ public class ParserController {
                 .setDescription("success")
                 .setResponseBody(new StringModel("success"))
                 .build();
+        System.out.println("[IP] " + httpServletRequest.getRemoteAddr() +
+                " [LOG] [setToken] [SUCCESS] [site] " + site + " [token] " + token);
         return response;
     }
 
@@ -92,8 +96,8 @@ public class ParserController {
             @RequestParam long forRequest,
             HttpServletRequest httpServletRequest) {
 
-        OffsetDateTime departureOffset = departure_at.atOffset(ZoneOffset.UTC); // или используйте нужный вам часовой пояс
-        OffsetDateTime returnOffset = return_at.atOffset(ZoneOffset.UTC); // или используйте нужный вам часовой пояс
+        OffsetDateTime departureOffset = departure_at.atOffset(ZoneOffset.UTC);
+        OffsetDateTime returnOffset = return_at.atOffset(ZoneOffset.UTC);
 
         // Создание объекта Ticket
         Ticket ticket = new Ticket(
@@ -107,7 +111,7 @@ public class ParserController {
                 returnOffset,
                 origin,
                 price,
-                return_transfers, // предполагается, что это количество пересадок на обратном пути
+                return_transfers, // количество пересадок на обратном пути
                 transfers, // количество пересадок на прямом рейсе
                 forRequest
         );

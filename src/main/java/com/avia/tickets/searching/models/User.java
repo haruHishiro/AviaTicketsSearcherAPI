@@ -1,7 +1,6 @@
 /*
- * Model for processing users in responses
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * User descriptor
+ * Developers: k.d.panov@gmail.com
  */
 
 package com.avia.tickets.searching.models;

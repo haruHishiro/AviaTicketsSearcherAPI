@@ -1,7 +1,6 @@
 /*
- * Service for processing of logic of work with user requests
- * Developers: Panov K.D. ;
- * Last change: february 2025
+ * Service for processing user requests
+ * Developers: k.d.panov@gmail.com
  */
 
 package com.avia.tickets.searching.services;
@@ -81,5 +80,9 @@ public class RequestsService {
 
     public ArrayList<Request> getActiveRequests() throws SQLException {
         return pdb.getActiveRequests();
+    }
+
+    public long getOwnerTelegramIdViaRequestId(long requestId)throws SQLException {
+        return pdb.getTelegramIdViaInternalId(pdb.getOwnerInternalIdViaRequestId(requestId));
     }
 }

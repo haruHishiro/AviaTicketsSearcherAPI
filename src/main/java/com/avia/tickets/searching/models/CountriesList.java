@@ -1,3 +1,7 @@
+/*
+ * Model for processing countries
+ * Developers: k.d.panov@gmail.com
+ */
 package com.avia.tickets.searching.models;
 
 import java.util.ArrayList;

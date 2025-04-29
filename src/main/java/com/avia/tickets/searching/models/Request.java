@@ -1,3 +1,7 @@
+/*
+ * User request descriptor
+ * Developers: k.d.panov@gmail.com
+ */
 package com.avia.tickets.searching.models;
 
 public class Request extends BaseModel {
