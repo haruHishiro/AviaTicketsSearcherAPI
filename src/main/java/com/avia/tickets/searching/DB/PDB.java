@@ -1,6 +1,6 @@
 /*
  * Class for work with PostgreSQL database
- * Developers: k.d.panov@gmail.com
+ * Developers: k.d.panov@gmail.com, nmalanin05@gmail.com
  */
 
 package com.avia.tickets.searching.DB;
