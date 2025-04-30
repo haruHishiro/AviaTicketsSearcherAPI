@@ -29,7 +29,7 @@ public class RequestsService {
     }
 
     public ArrayList<Request> getUserRequests(long userId, boolean isInternalId) throws SQLException {
-        if(isInternalId) {
+        if (isInternalId) {
             return pdb.getUserRequestsViaInternalId(userId);
         } else {
             return pdb.getUserRequestsViaInternalId(pdb.getInternalIdViaTelegramId(userId));
@@ -37,7 +37,7 @@ public class RequestsService {
     }
 
     public ArrayList<Request> getUserActiveRequests(long userId, boolean isInternalId) throws SQLException {
-        if(isInternalId) {
+        if (isInternalId) {
             return pdb.getUserActiveRequestsViaInternalId(userId);
         } else {
             return pdb.getUserActiveRequestsViaInternalId(pdb.getInternalIdViaTelegramId(userId));
@@ -45,7 +45,7 @@ public class RequestsService {
     }
 
     public ArrayList<Request> getUserNonActiveRequests(long userId, boolean isInternalId) throws SQLException {
-        if(isInternalId) {
+        if (isInternalId) {
             return pdb.getUserNonActiveRequestsViaInternalId(userId);
         } else {
             return pdb.getUserNonActiveRequestsViaInternalId(pdb.getInternalIdViaTelegramId(userId));
@@ -82,7 +82,16 @@ public class RequestsService {
         return pdb.getActiveRequests();
     }
 
-    public long getOwnerTelegramIdViaRequestId(long requestId)throws SQLException {
+    public long getOwnerTelegramIdViaRequestId(long requestId) throws SQLException {
         return pdb.getTelegramIdViaInternalId(pdb.getOwnerInternalIdViaRequestId(requestId));
+    }
+
+    public boolean checkCityExistenceForCountry(String countryName, String cityName) throws SQLException {
+        long countryIATA = pdb.getIATAIdForCountryViaCountryName(countryName);
+        long cityIATA = pdb.getIATAIdForCityViaCityName(cityName, pdb.getCountryIATACodeViaId(countryIATA));
+        if (countryIATA == 0 || cityIATA == 0) {
+            return false;
+        }
+        return true;
     }
 }
