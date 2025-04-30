@@ -24,13 +24,10 @@ public class PDB {
 
     private static final String SELECT_IS_ACTIVE_USER_VIA_TELEGRAM_ID = "SELECT is_active FROM users WHERE telegram_id = ?";
     private static final String SELECT_IS_ACTIVE_USER_VIA_INTERNAL_ID = "SELECT is_active FROM users WHERE id = ?";
-    private static final String DISABLE_USER_VIA_TELEGRAM_ID = "UPDATE users SET is_active = false WHERE telegram_id = ?";
     private static final String DISABLE_USER_VIA_INTERNAL_ID = "UPDATE users SET is_active = false WHERE id = ?";
-    private static final String ENABLE_USER_VIA_TELEGRAM_ID = "UPDATE users SET is_active = true WHERE telegram_id = ?";
     private static final String ENABLE_USER_VIA_INTERNAL_ID = "UPDATE users SET is_active = true WHERE id = ?";
     private static final String CHECK_USER_IN_DB = "SELECT * FROM users WHERE telegram_id = ?";
     private static final String CREATE_USER = "INSERT INTO users (telegram_id, is_active) VALUES (?, true)";
-    private static final String CHECK_USER_IN_DB_VIA_ID = "SELECT * FROM users WHERE id = ?";
     private static final String GET_INTERNAL_ID = "SELECT id FROM users WHERE telegram_id = ?";
     private static final String GET_TELEGRAM_ID = "SELECT telegram_id FROM users WHERE id = ?";
     private static final String GET_ACTIVE_REQUESTS = "SELECT * FROM requests WHERE is_active = true";
@@ -270,7 +267,7 @@ public class PDB {
             if (resultSet.next()) {
                 return resultSet.getLong("id");
             } else {
-                return Long.parseLong(null);
+                return 0;
             }
         }
     }
@@ -284,7 +281,7 @@ public class PDB {
             if (resultSet.next()) {
                 return resultSet.getLong("id");
             } else {
-                return Long.parseLong(null);
+                return 0;
             }
         }
     }
@@ -507,12 +504,6 @@ public class PDB {
             long departurePointCityIATA = getIATAIdForCityViaCityName(requestFields.getDeparturePointCityName(), getCountryIATACodeViaId(departurePointCountryIATA));
             long destinationPointCityIATA = getIATAIdForCityViaCityName(requestFields.getDestinationPointCityName(), getCountryIATACodeViaId(destinationPointCountryIATA));
 
-            /*
-            private static final String INSERT_REQUEST = "INSERT INTO requests " +
-            "(is_active, user_internal_id , departure_point_country_id, destination_point_country_id, departure_point_id, destination_point_id, " +
-            "start_date, end_date, is_need_luggage, changes_count, ticket_max_cost, is_direct) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            */
             preparedStatement.setBoolean(1, true); // active
             preparedStatement.setLong(2, internalId);
             preparedStatement.setLong(3, departurePointCountryIATA);
@@ -525,7 +516,6 @@ public class PDB {
             preparedStatement.setShort(10, requestFields.getChangesCount());
             preparedStatement.setInt(11, requestFields.getTicketMaxCost());
             preparedStatement.setBoolean(12, requestFields.isDirect());
-            System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         }
     }
@@ -608,5 +598,4 @@ public class PDB {
      *                               Request service section END
      * =====================================================================================
      */
-
 }
