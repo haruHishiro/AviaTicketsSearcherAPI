@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.avia</groupId>
-	<artifactId>tickets.searching</artifactId>
+	<artifactId>TicketsSearcher</artifactId>
 	<version>1.0-Release</version>
 	<name>TicketsSearcher</name>
 	<description>API module for searching avia tickets via telegram</description>
