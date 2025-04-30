@@ -153,6 +153,34 @@ public class RequestsController {
         return response;
     }
 
+    @GetMapping("/checkCityExistenceForCountry")
+    public Response checkCityExistenceForCountry(@RequestParam String countryName, @RequestParam String cityName, HttpServletRequest httpServletRequest) {
+        Response response;
+        try {
+            boolean isCountryContainsCity = requestsService.checkCityExistenceForCountry(countryName, cityName);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("success")
+                    .setResponseBody(new ValueBooleanModel(isCountryContainsCity))
+                    .build();
+            System.out.println("[IP] " + httpServletRequest.getRemoteAddr() +
+                    " [LOG] [checkCityExistenceForCountry] [SUCCESS] [countryName] " + countryName +
+                    " [cityName] " + cityName + " [isContains] " + isCountryContainsCity);
+        }catch (SQLException e) {
+            System.out.println(e);
+            response = Response.builder()
+                    .setCode(200)
+                    .setStatus("OK")
+                    .setDescription("error")
+                    .build();
+            System.out.println("\u001B[31m" + "[IP] " + httpServletRequest.getRemoteAddr() +
+                    " [LOG] [checkCityExistenceForCountry] [ERROR] [countryName] " + countryName + " [cityName] " + cityName + "\u001B[0m");
+        }
+
+        return response;
+    }
+
     @GetMapping("/addRequest")
     public Response addRequest(@RequestParam long userId, @RequestParam boolean isInternalId, @RequestParam String departureCity,
                                @RequestParam String destinationCity, @RequestParam String startDate, @RequestParam String endDate,
