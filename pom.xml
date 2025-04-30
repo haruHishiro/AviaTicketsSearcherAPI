@@ -10,8 +10,8 @@
 	</parent>
 	<groupId>com.avia</groupId>
 	<artifactId>tickets.searching</artifactId>
-	<version>0.0.1-Alfa</version>
-	<name>Tickets searcher</name>
+	<version>1.0-Release</version>
+	<name>TicketsSearcher</name>
 	<description>API module for searching avia tickets via telegram</description>
 	<url/>
 	<licenses>
