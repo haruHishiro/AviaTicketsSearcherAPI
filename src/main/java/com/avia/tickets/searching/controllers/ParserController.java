@@ -128,4 +128,17 @@ public class ParserController {
         return response;
     }
 
+    @GetMapping("/clearTickets")
+    public Response clearTickets(HttpServletRequest httpServletRequest) {
+        Response response;
+        parserService.clearTickets();
+        response = Response.builder()
+                .setCode(200)
+                .setStatus("OK")
+                .setDescription("success")
+                .build();
+        System.out.println("[IP] " + httpServletRequest.getRemoteAddr() + " [LOG] [clearTickets] [SUCCESS]");
+        return response;
+    }
+
 }
